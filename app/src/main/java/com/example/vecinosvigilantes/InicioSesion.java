@@ -71,7 +71,7 @@ public class InicioSesion extends AppCompatActivity {
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(InicioSesion.this, "Usuario o Contraseña Incorrestos", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(InicioSesion.this, "Usuario o Contraseña Incorrectos", Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
                     }
