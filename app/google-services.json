@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1033749183522",
+    "project_id": "vecinosvigilantes-2b857",
+    "storage_bucket": "vecinosvigilantes-2b857.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1033749183522:android:5caeb7e879745d84695e7b",
+        "android_client_info": {
+          "package_name": "com.example.vecinosvigilantes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1033749183522-a2bf5qicmim9e4bpi59bja7h5ivp7cp0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnbdjY42V8Tt5KLSBkSqX64TxdTbf-H3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1033749183522-a2bf5qicmim9e4bpi59bja7h5ivp7cp0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

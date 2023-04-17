@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="fondoApp">
+        <item name="android:background">@drawable/fondogradiante</item>
+    </style>
+    <style name="cardInicioSesion">
+        <item name="android:background">@drawable/fonodcardiniciosesion</item>
+    </style>
+    <style name="fondoBoton">
+        <item name="android:background">@drawable/fondobotones</item>
+    </style>
+</resources>
