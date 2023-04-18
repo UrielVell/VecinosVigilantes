@@ -14,7 +14,11 @@
         android:theme="@style/Theme.VecinosVigilantes"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
+            android:name=".CreargrupoActivity"
+=======
             android:name=".Grupos"
+>>>>>>> 949fbd96385e528848ce100abda298ac8dc46da0
             android:exported="false" />
         <activity
             android:name=".PantallaInicio"
