@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Perfil"
+        android:id="@+id/perfil"/>
+    <item android:title="Alertas"
+        android:id="@+id/alertas"/>
+    <item android:title="Grupo"
+        android:id="@+id/grupo"/>
+</menu>

@@ -66,7 +66,7 @@ public class InicioSesion extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(InicioSesion.this, "Bienvenido ", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(InicioSesion.this, PantallaInicio.class);
+                            Intent intent = new Intent(InicioSesion.this, InicioApp.class);
                             startActivity(intent);
                             //updateUI(user);
                         } else {
