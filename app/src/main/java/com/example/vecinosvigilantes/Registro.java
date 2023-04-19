@@ -95,9 +95,11 @@ public class Registro extends AppCompatActivity {
                             Toast.makeText(Registro.this, "No se pudo registrar, intente de nuevo.", Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
-
                     }
                 });
+    }
+
+    public void CrearGrupo(String nomGrupo){
 
     }
 

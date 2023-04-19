@@ -99,7 +99,7 @@
                     android:layout_width="55dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    app:srcCompat="@drawable/_icon__lock_" />
+                    app:srcCompat="@drawable/icon__lock_" />
 
                 <EditText
                     android:id="@+id/contraUsuario"
