@@ -1,0 +1,8 @@
+En esta carpeta van a ir los archivos de las activities
+
+Solo realizan cosas directamente relacionadas con los fragments. Ejemplos
+
+  - Recuperar datos
+  - Mostrar datos
+  - Intents
+  - y así

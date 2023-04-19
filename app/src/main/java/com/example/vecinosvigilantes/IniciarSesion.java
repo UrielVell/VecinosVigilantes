@@ -16,7 +16,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class InicioSesion extends AppCompatActivity {
+public class IniciarSesion extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
@@ -44,7 +44,7 @@ public class InicioSesion extends AppCompatActivity {
                 String contraUsuario = contraUsuarioInicio.getText().toString().trim();
 
                 if (correoUsuario.isEmpty()&&contraUsuario.isEmpty()){
-                    Toast.makeText(InicioSesion.this, "Ingrese todos los datos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IniciarSesion.this, "Ingrese todos los datos", Toast.LENGTH_SHORT).show();
                 }else {
                     IniciarSesion(correoUsuario,contraUsuario);
                 }
@@ -64,14 +64,14 @@ public class InicioSesion extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(InicioSesion.this, "Bienvenido ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(IniciarSesion.this, "Bienvenido ", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(InicioSesion.this, InicioApp.class);
+                            Intent intent = new Intent(IniciarSesion.this, InicioApp.class);
                             startActivity(intent);
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(InicioSesion.this, "Usuario o Contraseña Incorrectos", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(IniciarSesion.this, "Usuario o Contraseña Incorrectos", Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
                     }

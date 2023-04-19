@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -88,7 +87,7 @@ public class Registro extends AppCompatActivity {
 
                             Toast.makeText(Registro.this, "Registro Exitoso", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(Registro.this, InicioSesion.class);
+                            Intent intent = new Intent(Registro.this, IniciarSesion.class);
                             startActivity(intent);
                             //updateUI(user);
                         } else{
