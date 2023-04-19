@@ -18,7 +18,7 @@
             android:name=".InicioApp"
             android:exported="false" />
         <activity
-            android:name=".CreargrupoActivity"
+            android:name=".CrearGrupoActivity"
             android:exported="false"/>
 
         <activity
@@ -28,7 +28,7 @@
             android:name=".Registro"
             android:exported="false" />
         <activity
-            android:name=".InicioSesion"
+            android:name=".IniciarSesion"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
