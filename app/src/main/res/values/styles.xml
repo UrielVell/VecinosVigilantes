@@ -9,4 +9,10 @@
     <style name="fondoBoton">
         <item name="android:background">@drawable/fondobotones</item>
     </style>
+    <style name="cabeceraPantalla">
+        <item name="android:background">@drawable/cabecerapantallas</item>
+    </style>
+    <style name="fondoIconosCuadrado">
+        <item name="android:background">@drawable/fondoiconosalertas</item>
+    </style>
 </resources>
