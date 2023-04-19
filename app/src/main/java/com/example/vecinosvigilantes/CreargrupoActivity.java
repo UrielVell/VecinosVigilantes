@@ -35,15 +35,9 @@ public class CreargrupoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_creargrupo);
         mfirestore=FirebaseFirestore.getInstance();
         nombreGrupo=findViewById(R.id.editTextTextPersonName);
-        NuevoGrupo(nombreGrupo.getText().toString());
-
+        crearGrupo(nombreGrupo.getText().toString());
     }
 
-
-    public void NuevoGrupo(String nombre){
-        String nombreG=nombre;
-        crearGrupo(nombreG);
-    }
     public void crearGrupo( String nombregrupo) {
         Map <String, Object> map =new HashMap<>();
         map.put("Nombre", nombregrupo);
