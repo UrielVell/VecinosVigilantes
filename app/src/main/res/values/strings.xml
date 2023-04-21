@@ -14,4 +14,10 @@
     <string name="tab_text_2">Tab 2</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="vecinos_vigilantes">Vecinos Vigilantes</string>
+    <string name="inicia_sesion">Inicia Sesión</string>
+    <string name="correo_electronico">Correo electrónico</string>
+    <string name="contrasenia">Contraseña</string>
+    <string name="registrate">Regístrate</string>
+    <string name="entrar">Entrar</string>
 </resources>
