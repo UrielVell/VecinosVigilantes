@@ -18,6 +18,6 @@
     <string name="inicia_sesion">Inicia Sesión</string>
     <string name="correo_electronico">Correo electrónico</string>
     <string name="contrasenia">Contraseña</string>
-    <string name="registrate">Regístrate</string>
+    <string name="registrate">Regístrate aquí</string>
     <string name="entrar">Entrar</string>
 </resources>

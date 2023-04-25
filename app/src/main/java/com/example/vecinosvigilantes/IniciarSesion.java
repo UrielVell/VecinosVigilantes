@@ -31,7 +31,7 @@ public class IniciarSesion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inicio_sesion);
+        setContentView(R.layout.activity_iniciar_sesion);
 
         EditText correoUsuarioInicio = (EditText) findViewById(R.id.correoUsuarioInicio);
         EditText contraUsuarioInicio = (EditText) findViewById(R.id.contraUsuarioInicio);
@@ -71,7 +71,7 @@ public class IniciarSesion extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(IniciarSesion.this, "Bienvenido ", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(IniciarSesion.this, InicioApp.class);
+                            Intent intent = new Intent(IniciarSesion.this, InicioAppActivity.class);
                             startActivity(intent);
                             //updateUI(user);
                         } else {
@@ -85,10 +85,10 @@ public class IniciarSesion extends AppCompatActivity {
 
     public void onStart() {
         super.onStart();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();git 
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() != null){
             finish();
-            startActivity(new Intent(getApplicationContext(),InicioApp.class));
+            startActivity(new Intent(getApplicationContext(),InicioAppActivity.class));
         }
     }
 }
