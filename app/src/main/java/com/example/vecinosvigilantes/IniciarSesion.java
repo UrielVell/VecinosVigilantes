@@ -85,7 +85,7 @@ public class IniciarSesion extends AppCompatActivity {
 
     public void onStart() {
         super.onStart();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();git 
         if (firebaseAuth.getCurrentUser() != null){
             finish();
             startActivity(new Intent(getApplicationContext(),InicioApp.class));

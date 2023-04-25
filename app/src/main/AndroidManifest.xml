@@ -13,14 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VecinosVigilantes"
         tools:targetApi="31">
-
         <activity
-            android:name=".InicioApp"
+            android:name=".vecino.aplicacion.activities.CompartirGrupo"
+            android:exported="false" />
+        <activity
+            android:name=".InicioAppActivity"
             android:exported="false" />
         <activity
             android:name=".CrearGrupoActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".Grupos"
             android:exported="false" />
@@ -28,7 +29,7 @@
             android:name=".Registro"
             android:exported="false" />
         <activity
-            android:name=".IniciarSesion"
+            android:name=".IniciarSesionActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
