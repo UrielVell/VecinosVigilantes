@@ -28,7 +28,6 @@
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/lato"
                 android:text="Grupo"
@@ -36,21 +35,24 @@
                 android:textSize="48sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/imageView11"
+            <ImageButton
+                android:id="@+id/imageButton3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
                 android:layout_weight="0"
-                android:src="@drawable/group_3" />
+                android:background="@color/transparent"
+                android:src="@drawable/group_3"
+                android:layout_marginEnd="20dp"/>
 
-            <ImageView
-                android:id="@+id/imageView12"
+            <ImageButton
+                android:id="@+id/imageButton4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
                 android:layout_weight="0"
-                android:src="@drawable/group_4" />
+                android:src="@drawable/group_4"
+                android:background="@color/transparent"
+                android:layout_marginEnd="20dp"/>
+
         </LinearLayout>
     </LinearLayout>
 

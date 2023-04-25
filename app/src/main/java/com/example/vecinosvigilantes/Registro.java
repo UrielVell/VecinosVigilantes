@@ -1,5 +1,7 @@
 package com.example.vecinosvigilantes;
 
+import static com.google.firebase.FirebaseError.ERROR_EMAIL_ALREADY_IN_USE;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,9 +13,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -85,17 +91,29 @@ public class Registro extends AppCompatActivity {
                             String id = mAuth.getCurrentUser().getUid();
                             mDatabase.child("Usuarios").child(id).setValue(map);
 
-                            Toast.makeText(Registro.this, "Registro Exitoso", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Registro.this, "Registro Exitoso.", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent intent = new Intent(Registro.this, IniciarSesion.class);
                             startActivity(intent);
                             //updateUI(user);
                         } else{
-                            Toast.makeText(Registro.this, "No se pudo registrar, intente de nuevo.", Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
+
+                            String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                            erro(errorCode);
                         }
                     }
                 });
+    }
+
+    public void erro(String errorCode) {
+
+        switch (errorCode) {
+            case "ERROR_EMAIL_ALREADY_IN_USE":
+                Toast.makeText(Registro.this, "Email ya registrado.   ", Toast.LENGTH_LONG).show();
+                break;
+
+        }
+
     }
 
     public void CrearGrupo(String nomGrupo){

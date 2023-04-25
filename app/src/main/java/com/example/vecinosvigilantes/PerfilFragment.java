@@ -1,5 +1,7 @@
 package com.example.vecinosvigilantes;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +30,8 @@ public class PerfilFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    FirebaseAuth firebaseAuth;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -53,12 +62,38 @@ public class PerfilFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        View root = inflater.inflate(R.layout.fragment_perfil, container, false);
+        TextView txtUsuario =  root.findViewById(R.id.txtPerfil);
+        Button btnCerrarSesion = root.findViewById(R.id.btnCerrarSesion);
+
+        String usuarioLog = firebaseAuth.getCurrentUser().getEmail();
+
+        txtUsuario.setText("Usuario logeado " + usuarioLog);
+
+        btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firebaseAuth.signOut();
+                Toast.makeText(getContext(), "Sesion Cerrada con exito", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), IniciarSesion.class);
+                startActivity(intent);
+            }
+        });
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil, container, false);
+        return root;
+
     }
 }
