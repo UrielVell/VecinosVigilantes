@@ -8,8 +8,8 @@
 
     <LinearLayout
         style="@style/fondoApp"
-        android:layout_width="415dp"
-        android:layout_height="745dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,10 +38,11 @@
 
         <LinearLayout
             style="@style/cardInicioSesion"
-            android:layout_width="355dp"
-            android:layout_height="510dp"
+            android:layout_width="match_parent"
+            android:layout_height="443dp"
             android:layout_marginStart="30dp"
-
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="80dp"
             android:orientation="vertical">
 
             <TextView
@@ -111,31 +112,35 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="120dp"
+                android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_marginStart="215dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="20dp"
                 android:fontFamily="@font/lato"
                 android:onClick="iniciarRegistroActivity"
                 android:text="@string/registrate"
                 android:textAlignment="textEnd"
                 android:textColor="@color/light_blue_A400"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnIniciarSesion"
                 style="@style/fondoBoton"
-                android:layout_width="244dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/fondobotones"
                 android:fontFamily="@font/lato"
                 android:onClick="iniciarSesion"
                 android:text="@string/entrar"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp" />
+                android:textSize="30sp" />
 
         </LinearLayout>
+
     </LinearLayout>
 </RelativeLayout>

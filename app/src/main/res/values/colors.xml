@@ -10,4 +10,6 @@
 
     <color name="light_blue_A400">#00c6fb</color>
     <color name="blue_700">#005bea</color>
+
+    <color name="transparent">#00000000</color>
 </resources>

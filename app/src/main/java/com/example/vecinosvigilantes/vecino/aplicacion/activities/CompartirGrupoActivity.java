@@ -13,5 +13,6 @@ public class CompartirGrupoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compartir_grupo);
 
+
     }
 }
