@@ -1,7 +1,5 @@
 package com.example.vecinosvigilantes;
 
-import static com.google.firebase.FirebaseError.ERROR_EMAIL_ALREADY_IN_USE;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,18 +19,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class Registro extends AppCompatActivity {
+public class RegistroActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -67,10 +60,10 @@ public class Registro extends AppCompatActivity {
                 String contrasena = contraUsuario.getText().toString().trim();
 
                 if (usuario.isEmpty()&&correo.isEmpty()&&contrasena.isEmpty()){
-                    Toast.makeText(Registro.this, "Ingrese todos los datos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistroActivity.this, "Ingrese todos los datos", Toast.LENGTH_SHORT).show();
                 }
                 else if (contrasena.length()<6) {
-                        Toast.makeText(Registro.this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistroActivity.this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
                     }
                 else {
                         Registrarse(usuario, correo, contrasena);
@@ -102,15 +95,15 @@ public class Registro extends AppCompatActivity {
                                     String id = mAuth.getCurrentUser().getUid();
                                     mDatabase.child("Usuarios").child(id).setValue(usuarioNuevo);
 
-                                    Toast.makeText(Registro.this, "Registro Exitoso.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegistroActivity.this, "Registro Exitoso.", Toast.LENGTH_SHORT).show();
 
-                                    Intent intent = new Intent(Registro.this, IniciarSesionActivity.class);
+                                    Intent intent = new Intent(RegistroActivity.this, IniciarSesionActivity.class);
                                     startActivity(intent);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(Registro.this, "Error", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegistroActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -128,7 +121,7 @@ public class Registro extends AppCompatActivity {
 
         switch (errorCode) {
             case "ERROR_EMAIL_ALREADY_IN_USE":
-                Toast.makeText(Registro.this, "Email ya registrado.   ", Toast.LENGTH_LONG).show();
+                Toast.makeText(RegistroActivity.this, "Email ya registrado.   ", Toast.LENGTH_LONG).show();
                 break;
 
         }
