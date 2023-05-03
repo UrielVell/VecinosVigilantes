@@ -53,7 +53,6 @@ public class Registro extends AppCompatActivity {
 
 
         Button buttonRegistrarse = (Button) findViewById(R.id.btnRegistrarse);
-
         EditText nombreUsuario = (EditText) findViewById(R.id.nombreUsuario);
         EditText correoUsuario = (EditText) findViewById(R.id.correoUsuario);
         EditText contraUsuario = (EditText) findViewById(R.id.contraUsuario);

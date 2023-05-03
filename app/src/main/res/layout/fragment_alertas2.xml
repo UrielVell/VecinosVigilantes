@@ -30,9 +30,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="758dp"
-        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,17 +46,16 @@
             android:layout_marginTop="150dp"
             android:background="@color/white"
             android:contentDescription="Envia una alerta de Emergencia"
-            app:srcCompat="@drawable/group_1"
-            />
+            app:srcCompat="@drawable/group_1" />
 
         <ImageButton
             android:id="@+id/imageButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            app:srcCompat="@drawable/group_2"
             android:background="@color/white"
-            android:contentDescription="Envia una Alerta de sospecha"/>
+            android:contentDescription="Envia una Alerta de sospecha"
+            app:srcCompat="@drawable/group_2" />
 
         <LinearLayout
             style="@style/fondoIconosCuadrado"
