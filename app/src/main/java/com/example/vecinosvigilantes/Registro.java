@@ -6,14 +6,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.vecinosvigilantes.vecino.dominio.UsuarioClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +36,9 @@ public class Registro extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+
+    private StorageReference pp;
+
 
 
 
@@ -41,6 +49,8 @@ public class Registro extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        pp = FirebaseStorage.getInstance().getReference();
+
 
         Button buttonRegistrarse = (Button) findViewById(R.id.btnRegistrarse);
         EditText nombreUsuario = (EditText) findViewById(R.id.nombreUsuario);
@@ -83,20 +93,30 @@ public class Registro extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Map <String, Object> map = new HashMap<>();
-                            map.put("nombreUsuario", usuario);
-                            map.put("correo", correo);
-                            map.put("contraseña", contrasena);
-                            String id = mAuth.getCurrentUser().getUid();
-                            mDatabase.child("Usuarios").child(id).setValue(map);
+                            pp.child("fotosPerfil/ojo.png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Uri ppic = uri;
+                                    String ppuser = ppic.toString();
+                                    UsuarioClass usuarioNuevo = new UsuarioClass(usuario,correo,ppuser);
+                                    String id = mAuth.getCurrentUser().getUid();
+                                    mDatabase.child("Usuarios").child(id).setValue(usuarioNuevo);
 
-                            Toast.makeText(Registro.this, "Registro Exitoso.", Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(Registro.this, IniciarSesionActivity.class);
-                            startActivity(intent);
+                                    Toast.makeText(Registro.this, "Registro Exitoso.", Toast.LENGTH_SHORT).show();
+
+                                    Intent intent = new Intent(Registro.this, IniciarSesionActivity.class);
+                                    startActivity(intent);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(Registro.this, "Error", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
                             //updateUI(user);
                         } else{
-
                             String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
                             erro(errorCode);
                         }

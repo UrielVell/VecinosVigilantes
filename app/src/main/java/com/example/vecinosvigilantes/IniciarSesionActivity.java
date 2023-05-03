@@ -30,7 +30,10 @@ public class IniciarSesionActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
+        if(currentUser!=null){
+            Intent intent = new Intent(this, InicioAppActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void iniciarRegistroActivity(View view){
