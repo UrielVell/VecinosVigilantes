@@ -22,22 +22,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
-            android:id="@+id/contenedortitulo"
+        <Button
+            android:id="@+id/button4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button9"
-                style="@style/fondoBoton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/fondobotones"
-                android:text="Nuevo grupo" />
-
-        </LinearLayout>
+            android:onClick="abreGaleria"
+            android:text="cargar imagen" />
 
         <LinearLayout
             android:id="@+id/infodegrupo"
@@ -49,7 +39,8 @@
             <ImageView
                 android:id="@+id/imageView9"
                 android:layout_width="match_parent"
-                android:layout_height="210dp"
+                android:layout_height="218dp"
+
                 android:background="#AAA9A9"
                 app:cornerRadius="25dp"
                 app:srcCompat="@drawable/camara" />
@@ -78,6 +69,7 @@
                     android:textSize="25sp" />
 
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -94,8 +86,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
-                android:onClick="crearGrupo2"
+                android:onClick="crearGrupo"
                 android:text="Crear grupo" />
+
         </LinearLayout>
 
     </LinearLayout>
