@@ -31,6 +31,7 @@ android {
         viewBinding true
     }
 }
+<<<<<<< HEAD
 
 
 dependencies {
@@ -47,6 +48,10 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.15.1'
 
     
+=======
+
+dependencies {
+>>>>>>> 9b46d26a4f71a8aef47d6ed3a186cfe1e61d785b
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment:2.5.3'

@@ -24,10 +24,7 @@
             android:name=".CrearGrupoActivity"
             android:exported="false" />
         <activity
-            android:name=".Grupos"
-            android:exported="false" />
-        <activity
-            android:name=".Registro"
+            android:name=".RegistroActivity"
             android:exported="false" />
         <activity
             android:name=".IniciarSesionActivity"
