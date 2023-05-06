@@ -1,15 +1,18 @@
 package com.example.vecinosvigilantes;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.vecinosvigilantes.vecino.dominio.Grupo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,15 +24,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CrearGrupoActivity extends AppCompatActivity {
-    private FirebaseFirestore mAuth;
-    private DatabaseReference mDatabase;
 
-    Button nombre_grupo;
+
+    private FirebaseAuth autenticacion;
+
+    private StorageReference reference;
+    private static final int GALLERY_INTENT=1;
     EditText nombreGrupo=null;
 
 
@@ -37,65 +46,52 @@ public class CrearGrupoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_grupo);
+        autenticacion=FirebaseAuth.getInstance();
+        reference= FirebaseStorage.getInstance().getReference();
 
-        mAuth=FirebaseFirestore.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     public void crearGrupo(View view) {
-        nombreGrupo=findViewById(R.id.editTextTextPersonName);
-        String newNombre=nombreGrupo.getText().toString();
-        Map <String, Object> map =new HashMap<>();
-        map.put("Nombre", newNombre);
-        mAuth.collection("grupo").add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(getApplicationContext(),"Creado exitosamente", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-            Toast.makeText(getApplicationContext(),"Error al crear grupo", Toast.LENGTH_SHORT).show();
-            }
-        });
+        nombreGrupo = findViewById(R.id.editTextTextPersonName);
+        String newNombre = nombreGrupo.getText().toString();
+        String idUsuarioLog = autenticacion.getCurrentUser().getUid();
+        ArrayList<String> lista = new ArrayList<String>();
+        String urlImagen = "logo";
+        Grupo grupo1 = new Grupo(newNombre, idUsuarioLog, urlImagen);
+        //referencia ala base de datos
+        DatabaseReference miDRef= FirebaseDatabase.getInstance().getReference().child("Grupos");
+        DatabaseReference miDRef2= FirebaseDatabase.getInstance().getReference().child("Grupos").child("mienbros");
+        DatabaseReference nuevoGrupo=miDRef.push();
+        nuevoGrupo.setValue(grupo1);
+
 
     }
-    /////
 
-    /*public void nuevoGrupo2(String nombre){
-
-        mAuth.createGrupoWithName(nombre)
-
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Map <String, Object> map = new HashMap<>();
-                            map.put("nomgreGrupo", nombre);
-                            String id = mAuth.getCurrentGroup().getUid();
-                            mDatabase.child("Usuarios").child(id).setValue(map);
-
-                            Toast.makeText(Registro.this, "Registro Exitoso", Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(Registro.this, IniciarSesionActivity.class);
-                            startActivity(intent);
-                            //updateUI(user);
-                        } else{
-                            Toast.makeText(Registro.this, "No se pudo registrar, intente de nuevo.", Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
-                        }
-                    }
-                });
-    }*/
-    ////
-
-    public void crearGrupo2(View view){
-        Toast.makeText(getApplicationContext(),"prueba",Toast.LENGTH_SHORT).show();
+    public void abreGaleria(View view){
+        Intent intent =new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, GALLERY_INTENT);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if(requestCode== GALLERY_INTENT && requestCode == RESULT_OK){
 
+            Uri uri=data.getData();
 
+            StorageReference file =reference.child("fotos").child(uri.getLastPathSegment());
 
+            file.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(CrearGrupoActivity.this,"se subió exitosamente la foto", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
 }
+
+
+
