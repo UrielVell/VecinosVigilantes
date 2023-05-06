@@ -84,7 +84,7 @@
                 android:layout_weight="1" />
 
             <ImageView
-                android:id="@+id/imageView15"
+                android:id="@+id/imageViewQR"
                 android:layout_width="228dp"
                 android:layout_height="226dp"
                 app:srcCompat="@android:drawable/stat_notify_error" />
