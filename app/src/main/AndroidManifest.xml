@@ -15,7 +15,7 @@
         android:theme="@style/Theme.VecinosVigilantes"
         tools:targetApi="31">
         <activity
-            android:name=".vecino.aplicacion.activities.CompartirGrupo"
+            android:name=".vecino.aplicacion.activities.CompartirGrupoActivity"
             android:exported="false" />
         <activity
             android:name=".InicioAppActivity"
