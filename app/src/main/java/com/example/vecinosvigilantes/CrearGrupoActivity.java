@@ -88,6 +88,7 @@ public class CrearGrupoActivity extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(CrearGrupoActivity.this,"se subió exitosamente la foto", Toast.LENGTH_LONG).show();
                 }
+
             });
         }
     }
