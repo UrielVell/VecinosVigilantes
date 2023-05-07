@@ -1,10 +1,14 @@
 package com.example.vecinosvigilantes;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -18,12 +22,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +54,10 @@ public class PerfilFragment extends Fragment {
 
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
-    DatabaseReference child;
+
+    StorageReference storageReference;
+
+    private static final int GALLERY_INTENT = 1;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -84,18 +98,20 @@ public class PerfilFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         firebaseAuth = FirebaseAuth.getInstance();
-
+        storageReference = FirebaseStorage.getInstance().getReference();
 
 
         View root = inflater.inflate(R.layout.fragment_perfil, container, false);
         TextView txtUsuario =  root.findViewById(R.id.txtPerfil);
         TextView nomUsuarioLog = root.findViewById(R.id.nombreUsuarioLog);
         ImageButton btnCerrarSesion = (ImageButton) root.findViewById(R.id.btnCerrarSesion);
+        ImageButton btnCambiarFoto = (ImageButton) root.findViewById(R.id.btnCambiarFoto);
         ImageView fotoPerfil = (ImageView) root.findViewById(R.id.imagePerfil);
 
         String usuarioLog = firebaseAuth.getCurrentUser().getEmail();
         String idUsuarioLog = firebaseAuth.getCurrentUser().getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog);
+
 
         txtUsuario.setText("Usuario logeado " + usuarioLog);
 
@@ -113,10 +129,72 @@ public class PerfilFragment extends Fragment {
             }
         });
 
+        btnCambiarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, GALLERY_INTENT);
+
+            }
+        });
+
 
         // Inflate the layout for this fragment
         return root;
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+            if(requestCode == GALLERY_INTENT && resultCode == RESULT_OK){
+                Uri uri = data.getData();
+
+                StorageReference rutaFotos = storageReference.child("fotosPerfil/").child(uri.getLastPathSegment());
+
+                rutaFotos.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getContext(), "Foto cambiada", Toast.LENGTH_SHORT).show();
+                        storageReference.child("fotosPerfil").child(uri.getLastPathSegment()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Uri ppic = uri;
+                                String newppuser = ppic.toString();
+                                HashMap map = new HashMap();
+                                map.put("pp", newppuser);
+                                databaseReference.updateChildren(map);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error al cambiar la imagen", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+    }
+
+    public void cargarFoto(ImageView fotoPerfil){
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String pp = snapshot.child("pp").getValue(String.class);
+                Glide.with(getContext()).load(pp).into(fotoPerfil);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void cargarInfoUsuario(ImageView fotoPerfil, TextView nombreUsLog){
