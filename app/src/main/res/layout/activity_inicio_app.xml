@@ -10,19 +10,20 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="412dp"
         android:layout_height="80dp"
+        android:layout_marginTop="2dp"
         android:background="@color/light_blue_A400"
         app:itemTextColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/contenedor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menunavigation" />
 
     <FrameLayout
         android:id="@+id/contenedor"
-        android:layout_width="409dp"
-        android:layout_height="642dp"
+        android:layout_width="410dp"
+        android:layout_height="809dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"

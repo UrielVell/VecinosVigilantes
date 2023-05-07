@@ -74,17 +74,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <ImageView
-        android:id="@+id/imageView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="188dp"
-        android:layout_marginEnd="48dp"
-        android:src="@drawable/group_3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPerfil"
-        />
-
-    <ImageView
         android:id="@+id/imagePerfil"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -93,8 +82,6 @@
         android:background="@drawable/fotoperfilredonda"
         android:clipToOutline="true"
         android:src="@drawable/default_profilepic"
-        app:layout_constraintEnd_toStartOf="@+id/imageView12"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
@@ -103,13 +90,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="58dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="299dp"
         android:fontFamily="@font/lato"
         android:text="Nombre:"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imagePerfil" />
 
@@ -117,34 +104,29 @@
         android:id="@+id/nombreUsuarioLog"
         android:layout_width="261dp"
         android:layout_height="48dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="112dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="70dp"
         android:ems="10"
         android:enabled="false"
         android:hint="nombre de usuario"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageButton7"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <ImageButton
         android:id="@+id/imageButton7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
         android:background="@color/transparent"
         android:contentDescription="editar nombre usuario"
         android:src="@drawable/group_7"
-        app:layout_constraintBottom_toTopOf="@+id/imageView14"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/nombreUsuarioLog"
-        app:layout_constraintTop_toBottomOf="@+id/imageView12" />
+        app:layout_constraintEnd_toStartOf="@+id/nombreUsuarioLog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
         android:id="@+id/textView9"
@@ -175,14 +157,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="111dp"
-        android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
         android:src="@drawable/group_8"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton7"
-        app:layout_constraintVertical_bias="0.969" />
+        app:layout_constraintStart_toEndOf="@+id/textView9" />
+
+    <ImageButton
+        android:id="@+id/btnCambiarFoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-30dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/group_3"
+        app:layout_constraintBottom_toTopOf="@+id/nombreUsuarioLog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imagePerfil"
+        android:background="@color/transparent"
+        android:contentDescription="cambiar foto de perfil"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
