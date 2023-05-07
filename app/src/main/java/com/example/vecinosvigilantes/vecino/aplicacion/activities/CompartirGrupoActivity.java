@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -22,7 +24,6 @@ import com.bumptech.glide.Glide;
 public class CompartirGrupoActivity extends AppCompatActivity {
     FirebaseDatabase db = FirebaseDatabase.getInstance();
     DatabaseReference grupoRef = db.getReference("Grupos");
-    //se necesita un string global para guardar el grupo en el que se encuentra el usuario
     Query query = grupoRef.orderByChild("nombre").equalTo("User.Grup");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,8 @@ public class CompartirGrupoActivity extends AppCompatActivity {
                     ImageView qrImage = (ImageView) findViewById(R.id.imageViewQR);
                     String url = "https://chart.googleapis.com/chart?cht=qr&chs=350x350&chl="+value+"&choe=UTF-8";
                     Glide.with(getApplicationContext()).load(url).into(qrImage);
+                }else {
+                    Toast.makeText(CompartirGrupoActivity.this, "Error el usuario no esta en ningùn grupo", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
@@ -44,5 +47,12 @@ public class CompartirGrupoActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton regresar = (ImageButton) findViewById(R.id.regresarGruposbtn);
+        regresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 }

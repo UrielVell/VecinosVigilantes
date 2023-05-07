@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.example.vecinosvigilantes.vecino.aplicacion.activities.CompartirGrupoActivity;
+import com.example.vecinosvigilantes.vecino.aplicacion.activities.SeleccionMetodoEntradaGrupoActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -81,7 +82,7 @@ public class GrupoFragment extends Fragment {
         entrarGrupo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(),CompartirGrupoActivity.class);
+                Intent intent = new Intent(getContext(), SeleccionMetodoEntradaGrupoActivity.class);
                 startActivity(intent);
             }
         });
