@@ -24,17 +24,17 @@ public class GrupoFragment extends Fragment {
 
     View root;
 
-    // TODO: Rename parameter arguments, choose names that match
+    //Todo: Renombra los parametros, escoge nombres que se parescan
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+    // TODO: Renombra y cambia los tipos de parametros
     private String mParam1;
     private String mParam2;
 
     public GrupoFragment() {
-        // Required empty public constructor
+        //requiere un constructor publico vacio
     }
 
     /**
@@ -45,7 +45,8 @@ public class GrupoFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment GrupoFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
+    // Todo: Renombra y cambia los numeros y tipos de parametros
     public static GrupoFragment newInstance(String param1, String param2) {
         GrupoFragment fragment = new GrupoFragment();
         Bundle args = new Bundle();
