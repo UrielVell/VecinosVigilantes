@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.vecinosvigilantes.vecino.aplicacion.logica.DialogCambiarNombre;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -107,6 +108,7 @@ public class PerfilFragment extends Fragment {
         TextView txtUsuario =  root.findViewById(R.id.txtPerfil);
         TextView nomUsuarioLog = root.findViewById(R.id.nombreUsuarioLog);
         ImageButton btnCerrarSesion = (ImageButton) root.findViewById(R.id.btnCerrarSesion);
+        ImageButton btnCambiarNombre = (ImageButton) root.findViewById(R.id.btnCambiarNombre);
         ImageButton btnCambiarFoto = (ImageButton) root.findViewById(R.id.btnCambiarFoto);
         fotoPerfil = (ImageView) root.findViewById(R.id.imagePerfil);
 
@@ -128,6 +130,14 @@ public class PerfilFragment extends Fragment {
                 Toast.makeText(getContext(), "Sesion Cerrada con exito", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), IniciarSesionActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        btnCambiarNombre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirDialogo();
+
             }
         });
 
@@ -196,15 +206,18 @@ public class PerfilFragment extends Fragment {
                     String nombre = snapshot.child("nombre").getValue(String.class);
                     Glide.with(getContext()).load(pp).into(fotoPerfil);
                     nombreUsLog.setText(nombre);
-
                 }
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+    }
+
+
+    public void abrirDialogo(){
+        DialogCambiarNombre dialog = new DialogCambiarNombre();
+        dialog.show(getParentFragmentManager(),"Cambiar nombre");
     }
 }
