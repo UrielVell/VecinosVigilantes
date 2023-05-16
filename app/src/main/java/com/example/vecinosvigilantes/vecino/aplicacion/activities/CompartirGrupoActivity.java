@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,18 +23,21 @@ import com.google.firebase.database.ValueEventListener;
 import com.bumptech.glide.Glide;
 
 public class CompartirGrupoActivity extends AppCompatActivity {
-    FirebaseDatabase db = FirebaseDatabase.getInstance();
-    DatabaseReference grupoRef = db.getReference("Grupos");
-    Query query = grupoRef.orderByChild("nombre").equalTo("User.Grup");
+    private final SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+    private final String GrupoUsuario = sh.getString("GrupoUsuario", "");
+
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private DatabaseReference grupoRef = db.getReference().child("Grupos");
+    private Query query = grupoRef.orderByChild("nombre").equalTo(GrupoUsuario);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compartir_grupo);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        grupoRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    String value = snapshot.getValue().toString();
+                    String value = snapshot.getKey();
                     ImageView qrImage = (ImageView) findViewById(R.id.imageViewQR);
                     String url = "https://chart.googleapis.com/chart?cht=qr&chs=350x350&chl="+value+"&choe=UTF-8";
                     Glide.with(getApplicationContext()).load(url).into(qrImage);

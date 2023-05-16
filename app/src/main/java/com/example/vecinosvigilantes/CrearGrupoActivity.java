@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -47,6 +48,13 @@ public class CrearGrupoActivity extends AppCompatActivity {
             String urlImagen = "logo";
             Grupo grupo1 = new Grupo(newNombre, idUsuarioLog, urlImagen);
 
+
+            //ponerlo con la key del miembro
+            SharedPreferences preferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+            SharedPreferences.Editor myEdit = preferences.edit();// se crea un editos de shared reference
+            myEdit.putString("GrupoUsuario",newNombre);
+            myEdit.commit();
+
             //referencia ala base de datos
 
             if (verificarUsuarioEnGrupo(idUsuarioLog)==0){
@@ -54,6 +62,7 @@ public class CrearGrupoActivity extends AppCompatActivity {
             } else if (verificarUsuarioEnGrupo(idUsuarioLog)==1) {
                 DatabaseReference miDRef= FirebaseDatabase.getInstance().getReference().child("Grupos");
                 DatabaseReference nuevoGrupo=miDRef.push();
+                //DatabaseReference nuevoGrupo=miDRef.push().getKey();
                 nuevoGrupo.setValue(grupo1);
                 nombreGrupo.setText(null);
                 Toast.makeText(CrearGrupoActivity.this,"Grupo creado con exito"+usuarioExiste,Toast.LENGTH_SHORT).show();
