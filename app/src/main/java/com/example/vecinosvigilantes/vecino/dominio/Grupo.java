@@ -15,6 +15,10 @@ public class Grupo {
         this.logo = logo;
     }
 
+    public Grupo(){
+
+    }
+
     public String getNombreGrupo() {
         return nombreGrupo;
     }
