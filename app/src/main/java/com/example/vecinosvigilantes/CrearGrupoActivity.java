@@ -29,7 +29,8 @@ public class CrearGrupoActivity extends AppCompatActivity {
     private EditText nombreGrupo=null;
     private ImageButton imj=null;
 
-    private int usuarioExiste;
+    SharedPreferences preferences;
+    private boolean msj;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,22 +51,25 @@ public class CrearGrupoActivity extends AppCompatActivity {
 
 
             //ponerlo con la key del miembro
-            SharedPreferences preferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+            preferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
             SharedPreferences.Editor myEdit = preferences.edit();// se crea un editos de shared reference
-            myEdit.putString("GrupoUsuario",newNombre);
-            myEdit.commit();
 
+            verificarUsuarioEnGrupo(preferences.getString("GrupoUsuario",""));
             //referencia ala base de datos
+                if(msj==false){
+                    Toast.makeText(CrearGrupoActivity.this,"Este usuario ya tiene un grupo asignado",Toast.LENGTH_SHORT).show();
+                }else if(msj==true){
+                    DatabaseReference miDRef= FirebaseDatabase.getInstance().getReference().child("Grupos");
+                    DatabaseReference nuevoGrupo=miDRef.push();
+                    String key=nuevoGrupo.getKey();
+                    nuevoGrupo.setValue(grupo1);
+                    myEdit.putString("GrupoUsuario",key);
+                    myEdit.commit();
+                    String apodo=preferences.getString("GrupoUsuario","");
+                    nombreGrupo.setText(apodo);
+                    Toast.makeText(CrearGrupoActivity.this,"Grupo creado con exito:"+apodo,Toast.LENGTH_SHORT).show();
+                }
 
-            if (verificarUsuarioEnGrupo(idUsuarioLog)==0){
-                Toast.makeText(CrearGrupoActivity.this,"Este usuario ya tiene un grupo asignado"+usuarioExiste,Toast.LENGTH_SHORT).show();
-            } else if (verificarUsuarioEnGrupo(idUsuarioLog)==1) {
-                DatabaseReference miDRef= FirebaseDatabase.getInstance().getReference().child("Grupos");
-                DatabaseReference nuevoGrupo=miDRef.push();
-                //DatabaseReference nuevoGrupo=miDRef.push().getKey();
-                nuevoGrupo.setValue(grupo1);
-                nombreGrupo.setText(null);
-                Toast.makeText(CrearGrupoActivity.this,"Grupo creado con exito"+usuarioExiste,Toast.LENGTH_SHORT).show();
             }
             {
 
@@ -73,7 +77,7 @@ public class CrearGrupoActivity extends AppCompatActivity {
 
         }
 
-    }
+
 
     public void abreGaleria(View view){
         Intent intent =new Intent(Intent.ACTION_PICK);
@@ -84,25 +88,23 @@ public class CrearGrupoActivity extends AppCompatActivity {
     }
 
 
-    public  int verificarUsuarioEnGrupo(String id){
+    public  void verificarUsuarioEnGrupo(String id){
         referencia.child("Grupos").child("administrador").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                String com =snapshot.getValue().toString();
-                if(com.equals(id)){
-                   usuarioExiste=0;
+                if (snapshot.child(id).exists()){
+                msj=false;
                 }else{
-                    usuarioExiste=1;
+
                 }
-                }
+                msj=false;
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-        return usuarioExiste;
+
     }
 }
 
