@@ -69,10 +69,10 @@ public class RegistroActivity extends AppCompatActivity {
                                     public void onSuccess(Uri uri) {
                                         Uri ppic = uri;
                                         String ppuser = ppic.toString();
-                                        UsuarioClass usuarioNuevo = new UsuarioClass(usuario, correo, ppuser);
+                                        String id_grupo="";
+                                        UsuarioClass usuarioNuevo = new UsuarioClass(usuario, correo, ppuser,id_grupo);
                                         String id = mAuth.getCurrentUser().getUid();
                                         mDatabase.child("Usuarios").child(id).setValue(usuarioNuevo);
-
                                         irAIniciarSesionActivity();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
@@ -118,6 +118,9 @@ public class RegistroActivity extends AppCompatActivity {
             valido = false;
             mensaje = "Campo contraseña vacío.";
             Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+        }
+        if (contrasena.length()<6) {
+            Toast.makeText(this,"La contraseña debe de tener más de 6 caracteres",Toast.LENGTH_SHORT).show();
         }
 
         return valido;
