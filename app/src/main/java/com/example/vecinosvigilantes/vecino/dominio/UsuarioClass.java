@@ -4,11 +4,13 @@ public class UsuarioClass {
     private String nombre;
     private String correo;
     private String pp;
+    private String id_grupo;
 
-    public UsuarioClass(String nombre, String correo, String pp) {
+    public UsuarioClass(String nombre, String correo, String pp, String id_grupo) {
         this.nombre = nombre;
         this.correo = correo;
         this.pp = pp;
+        this.id_grupo=id_grupo;
     }
 
     public String getNombre() {
@@ -33,5 +35,13 @@ public class UsuarioClass {
 
     public void setPp(String pp) {
         this.pp = pp;
+    }
+
+    public String getId_grupo() {
+        return id_grupo;
+    }
+
+    public void setId_grupo(String id_grupo) {
+        this.id_grupo = id_grupo;
     }
 }
