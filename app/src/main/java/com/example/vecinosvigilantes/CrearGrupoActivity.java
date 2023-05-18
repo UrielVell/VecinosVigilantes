@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,24 +20,26 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 public class CrearGrupoActivity extends AppCompatActivity {
 
 
     private FirebaseAuth autenticacion;
     private DatabaseReference referencia;
-
+    DatabaseReference referenciaUsuario;
     private static final int GALLERY_INTENT=1;
     private EditText nombreGrupo=null;
     private ImageButton imj=null;
 
-    SharedPreferences preferences;
-    private boolean msj;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_grupo);
         autenticacion=FirebaseAuth.getInstance();
         referencia=FirebaseDatabase.getInstance().getReference();
+
     }
 
     public void crearGrupo(View view) {
@@ -49,32 +52,26 @@ public class CrearGrupoActivity extends AppCompatActivity {
             String urlImagen = "logo";
             Grupo grupo1 = new Grupo(newNombre, idUsuarioLog, urlImagen);
 
+            referenciaUsuario=FirebaseDatabase.getInstance().getReference().child("Usuarios").child(idUsuarioLog);
+            //llamada al metodo de verificar grupo
 
-            //ponerlo con la key del miembro
-            preferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-            SharedPreferences.Editor myEdit = preferences.edit();// se crea un editos de shared reference
-
-            verificarUsuarioEnGrupo(preferences.getString("GrupoUsuario",""));
+            //el methodo if que esta comentado es el que verifica si ya tiene un grupo el ususario
+            //verificarUsuarioEnGrupo(preferences.getString("GrupoUsuario",""));
             //referencia ala base de datos
-                if(msj==false){
-                    Toast.makeText(CrearGrupoActivity.this,"Este usuario ya tiene un grupo asignado",Toast.LENGTH_SHORT).show();
-                }else if(msj==true){
-                    DatabaseReference miDRef= FirebaseDatabase.getInstance().getReference().child("Grupos");
-                    DatabaseReference nuevoGrupo=miDRef.push();
-                    String key=nuevoGrupo.getKey();
-                    nuevoGrupo.setValue(grupo1);
-                    myEdit.putString("GrupoUsuario",key);
-                    myEdit.commit();
-                    String apodo=preferences.getString("GrupoUsuario","");
-                    nombreGrupo.setText(apodo);
-                    Toast.makeText(CrearGrupoActivity.this,"Grupo creado con exito:"+apodo,Toast.LENGTH_SHORT).show();
-                }
+            //if (!verificarUsuarioEnGrupo().equals("")) {
+                Toast.makeText(CrearGrupoActivity.this, "Este usuario ya tiene un grupo asignado:", Toast.LENGTH_SHORT).show();
+           // } else {
+                DatabaseReference miDRef = FirebaseDatabase.getInstance().getReference().child("Grupos");
+                DatabaseReference nuevoGrupo = miDRef.push();
+                String key = nuevoGrupo.getKey();
+                nuevoGrupo.setValue(grupo1);
 
-            }
-            {
+                cambiarIdGrupo(idUsuarioLog,key);
+                nombreGrupo.setText(null);
+                Toast.makeText(CrearGrupoActivity.this, "Grupo creado con exito:" , Toast.LENGTH_SHORT).show();
+          //  }
 
-            }
-
+        }
         }
 
 
@@ -87,24 +84,32 @@ public class CrearGrupoActivity extends AppCompatActivity {
        // imj.setImageURI(path);
     }
 
+//este es el que no jala
+    /*public  String verificarUsuarioEnGrupo() {
+        final String[] id = new String[1];
+       referenciaUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot snapshot) {
+               for(DataSnapshot data: snapshot.getChildren()){
+                   String id_grupo=snapshot.child("id_grupo").getValue(String.class);
+                   id[0] =id_grupo;
+               }
+           }
 
-    public  void verificarUsuarioEnGrupo(String id){
-        referencia.child("Grupos").child("administrador").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(id).exists()){
-                msj=false;
-                }else{
+           @Override
+           public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-                msj=false;
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+           }
+       });
+       return id[0];
+    }*/
 
-            }
-        });
 
+
+    public void cambiarIdGrupo(String id_usuario,String id_grupo){
+        HashMap map=new HashMap();
+        map.put("id_grupo",id_grupo);
+        referenciaUsuario.updateChildren(map);
     }
 }
 
