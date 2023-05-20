@@ -2,63 +2,96 @@ package com.example.vecinosvigilantes;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AlertasFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+
 public class AlertasFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    FirebaseAuth firebaseAuth;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    DatabaseReference referenciaUsuario;
+
+
+
 
     public AlertasFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AlertasFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AlertasFragment newInstance(String param1, String param2) {
-        AlertasFragment fragment = new AlertasFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_alertas2, container, false);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
+        View root = inflater.inflate(R.layout.fragment_alertas2, container, false);
+
+        ImageButton btnEmergencia = (ImageButton) root.findViewById(R.id.btnEmergencia);
+        ImageButton btnSospechoso = (ImageButton) root.findViewById(R.id.btnSospechoso);
+
+        String idUsuarioLog = firebaseAuth.getCurrentUser().getUid();
+
+
+        referenciaUsuario = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog);
+
+       btnEmergencia.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               referenciaUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(@NonNull DataSnapshot snapshot) {
+                       String id_grupo = null;
+                       for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                           id_grupo = snapshot.child("id_grupo").getValue(String.class);
+                       }
+                       if (id_grupo.isEmpty()) {
+                           Toast.makeText(getContext(), "Debes de unirte a un grupo para mandar alertas", Toast.LENGTH_SHORT).show();
+                       } else {
+                           Toast.makeText(getContext(), "ID:" + id_grupo, Toast.LENGTH_SHORT).show();
+                       }
+                   }
+
+                   @Override
+                   public void onCancelled(@NonNull DatabaseError error) {
+
+                   }
+               });
+
+
+
+           }
+       });
+
+
+
+
+
+        return root;
+    }
+
+    public void mandarAlerta(){
+
     }
 }
