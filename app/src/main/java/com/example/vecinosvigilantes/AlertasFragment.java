@@ -1,80 +1,78 @@
 package com.example.vecinosvigilantes;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 
 public class AlertasFragment extends Fragment {
-    public AlertasFragment() {
-        // Required empty public constructor
-    }
 
-    public static AlertasFragment newInstance() {
-        AlertasFragment fragment = new AlertasFragment();
+    FirebaseAuth firebaseAuth;
 
-        return fragment;
-    }
+    DatabaseReference referenciaUsuario;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // alerta
-        View root = inflater.inflate(R.layout.fragment_alertas2, container, false);
-        ImageButton alertaVecino = root.findViewById(R.id.imageButton);
-        ImageButton alertaSospechoso = root.findViewById(R.id.imageButton2);
-        alertaVecino.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            mostrarDialogoAlerta();
-            }
-        });
-        alertaSospechoso.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mostrarDialogoSospechoso();
-            }
-        });
+        firebaseAuth = FirebaseAuth.getInstance();
 
+
+        View root = inflater.inflate(R.layout.fragment_alertas2, container, false);
+
+        ImageButton btnEmergencia = (ImageButton) root.findViewById(R.id.btnEmergencia);
+        ImageButton btnSospechoso = (ImageButton) root.findViewById(R.id.btnSospechoso);
+
+        String idUsuarioLog = firebaseAuth.getCurrentUser().getUid();
+
+
+        referenciaUsuario = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog);
+
+       btnEmergencia.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               referenciaUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(@NonNull DataSnapshot snapshot) {
+                       String id_grupo = null;
+                       for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                           id_grupo = snapshot.child("id_grupo").getValue(String.class);
+                       }
+                       if (id_grupo.isEmpty()) {
+                           Toast.makeText(getContext(), "Debes de unirte a un grupo para mandar alertas", Toast.LENGTH_SHORT).show();
+                       } else {
+                           Toast.makeText(getContext(), "ID:" + id_grupo, Toast.LENGTH_SHORT).show();
+                       }
+                   }
+
+                   @Override
+                   public void onCancelled(@NonNull DatabaseError error) {
+
+                   }
+               });
+           }
+       });
         return root;
     }
 
-    private void mostrarDialogoAlerta(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Alerta");
-        builder.setMessage("Estan asaltando a un vecino, urge ir a ayudarlo")
-                .setPositiveButton("Enterado", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                }).setCancelable(false)
-                .show();
+    public void mandarAlerta(){
 
     }
-    private void mostrarDialogoSospechoso(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Alerta");
-        builder.setMessage("Hay un sospechoso en la calle, estar al pendiente por cualquier cosa")
-                .setPositiveButton("Enterado", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                }).setCancelable(false)
-                .show();
-    }
-
-
 }
