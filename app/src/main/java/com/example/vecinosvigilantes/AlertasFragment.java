@@ -67,16 +67,8 @@ public class AlertasFragment extends Fragment {
 
                    }
                });
-
-
-
            }
        });
-
-
-
-
-
         return root;
     }
 
