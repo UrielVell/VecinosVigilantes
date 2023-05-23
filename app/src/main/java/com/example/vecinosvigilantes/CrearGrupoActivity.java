@@ -1,5 +1,6 @@
 package com.example.vecinosvigilantes;
 
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -42,7 +43,7 @@ public class CrearGrupoActivity extends AppCompatActivity {
 
     }
 
-    public void crearGrupo(View view) {
+    public void extraeInfoGrupo(View view) {
         nombreGrupo = findViewById(R.id.editTextTextPersonName);
         if (nombreGrupo.getText().toString().isEmpty()){
             Toast.makeText(CrearGrupoActivity.this,"Valor de nombre no puede ser vacia",Toast.LENGTH_SHORT).show();
@@ -51,65 +52,58 @@ public class CrearGrupoActivity extends AppCompatActivity {
             String idUsuarioLog = autenticacion.getCurrentUser().getUid();
             String urlImagen = "logo";
             Grupo grupo1 = new Grupo(newNombre, idUsuarioLog, urlImagen);
-
             referenciaUsuario=FirebaseDatabase.getInstance().getReference().child("Usuarios").child(idUsuarioLog);
-            //llamada al metodo de verificar grupo
-
-            //el methodo if que esta comentado es el que verifica si ya tiene un grupo el ususario
-            //verificarUsuarioEnGrupo(preferences.getString("GrupoUsuario",""));
-            //referencia ala base de datos
-            //if (!verificarUsuarioEnGrupo().equals("")) {
-                Toast.makeText(CrearGrupoActivity.this, "Este usuario ya tiene un grupo asignado:", Toast.LENGTH_SHORT).show();
-           // } else {
-                DatabaseReference miDRef = FirebaseDatabase.getInstance().getReference().child("Grupos");
-                DatabaseReference nuevoGrupo = miDRef.push();
-                String key = nuevoGrupo.getKey();
-                nuevoGrupo.setValue(grupo1);
-
-                cambiarIdGrupo(idUsuarioLog,key);
-                nombreGrupo.setText(null);
-                Toast.makeText(CrearGrupoActivity.this, "Grupo creado con exito:" , Toast.LENGTH_SHORT).show();
-          //  }
+            verificarGrupo(idUsuarioLog, grupo1);
+            //referencia para agregar la referencia del id del grupo
 
         }
         }
 
-
-
-    public void abreGaleria(View view){
-        Intent intent =new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent, GALLERY_INTENT);
-      //  Uri path=intent.getData();
-       // imj.setImageURI(path);
+    private void creaGrupo(Grupo grupo1,String idUsuarioLog) {
+        DatabaseReference miDRef = FirebaseDatabase.getInstance().getReference().child("Grupos");
+        DatabaseReference nuevoGrupo = miDRef.push();
+        String key = nuevoGrupo.getKey();
+        nuevoGrupo.setValue(grupo1);
+        cambiarIdGrupo(idUsuarioLog,key);
+        nombreGrupo.setText(null);
+        Toast.makeText(CrearGrupoActivity.this, "Grupo creado con exito:" , Toast.LENGTH_SHORT).show();
+        onBackPressed();
     }
 
-//este es el que no jala
-    /*public  String verificarUsuarioEnGrupo() {
-        final String[] id = new String[1];
-       referenciaUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
-           @Override
-           public void onDataChange(@NonNull DataSnapshot snapshot) {
-               for(DataSnapshot data: snapshot.getChildren()){
-                   String id_grupo=snapshot.child("id_grupo").getValue(String.class);
-                   id[0] =id_grupo;
-               }
-           }
-
-           @Override
-           public void onCancelled(@NonNull DatabaseError error) {
-
-           }
-       });
-       return id[0];
-    }*/
-
-
+    public void verificarGrupo(String id, Grupo grupo1){
+        //llamada al metodo de verificar grupo
+        referenciaUsuario = FirebaseDatabase.getInstance().getReference("Usuarios").child(id);
+        referenciaUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String id_grupo = null;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    id_grupo = snapshot.child("id_grupo").getValue(String.class);
+                    if(id_grupo.isEmpty()){
+                        creaGrupo(grupo1,id);
+                    } else if (!id_grupo.isEmpty()) {
+                        Toast.makeText(CrearGrupoActivity.this, "Este ususario ya tiene un grupo", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
 
     public void cambiarIdGrupo(String id_usuario,String id_grupo){
         HashMap map=new HashMap();
         map.put("id_grupo",id_grupo);
         referenciaUsuario.updateChildren(map);
+    }
+
+    public void abreGaleria(View view){
+        Intent intent =new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, GALLERY_INTENT);
+        //  Uri path=intent.getData();
+        // imj.setImageURI(path);
     }
 }
 

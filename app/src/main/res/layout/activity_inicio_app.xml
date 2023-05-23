@@ -21,8 +21,8 @@
 
     <FrameLayout
         android:id="@+id/contenedor"
-        android:layout_width="409dp"
-        android:layout_height="799dp"
+        android:layout_width="347dp"
+        android:layout_height="658dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
