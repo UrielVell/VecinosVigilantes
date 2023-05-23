@@ -20,4 +20,5 @@
     <string name="contrasenia">Contraseña</string>
     <string name="registrate">Regístrate aquí</string>
     <string name="entrar">Entrar</string>
+    <string name="title_activity_mapa_usuario">MapaUsuario</string>
 </resources>
