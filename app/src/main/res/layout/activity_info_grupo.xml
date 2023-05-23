@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".administrador.aplicacion.activities.InfoGrupoActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="410dp"
+        android:layout_height="70dp"
+        android:background="@drawable/cabecerapantallas"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnAtras"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:contentDescription="Regresar a grupo"
+            app:srcCompat="@drawable/_icon__nav_arrow_left_" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/lato"
+            android:text="Información de Grupo"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgFotoGrupo"
+        android:layout_width="0dp"
+        android:layout_height="201dp"
+        android:layout_marginStart="106dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="106dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:srcCompat="@drawable/_icon_camera"
+        android:background="@drawable/fotoperfilredonda"
+        android:clipToOutline="true"/>
+
+    <ImageButton
+        android:id="@+id/btnCambiarFotoGrupo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-30dp"
+        android:layout_marginTop="252dp"
+        android:layout_marginEnd="24dp"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/imgFotoGrupo"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:srcCompat="@drawable/group_7"
+        android:contentDescription="Cambiar foto de Grupo"/>
+
+    <EditText
+        android:id="@+id/txtNombreGrupo"
+        android:layout_width="247dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="64dp"
+        android:ems="10"
+        android:hint="Nombre de Grupo"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnCambiarNombreGrupo"
+        app:layout_constraintTop_toBottomOf="@+id/imgFotoGrupo" />
+
+    <ImageButton
+        android:id="@+id/btnCambiarNombreGrupo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="56dp"
+        android:background="@color/transparent"
+        android:contentDescription="Cambiar nombre de Grupo"
+        app:layout_constraintEnd_toStartOf="@+id/txtNombreGrupo"
+        app:layout_constraintHorizontal_bias="0.791"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgFotoGrupo"
+        app:srcCompat="@drawable/group_7" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/lato"
+        android:text="Integrantes:"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNombreGrupo"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView2"
+        android:layout_width="411dp"
+        android:layout_height="273dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="409dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnCompartir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            app:srcCompat="@drawable/group_10"
+            android:background="@color/transparent"
+            android:contentDescription="Compartir Grupo"
+            android:layout_marginStart="30dp"/>
+
+        <ImageButton
+            android:id="@+id/btnEliminarGrupo"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:background="@color/transparent"
+            android:contentDescription="Eliminar Grupo"
+            app:srcCompat="@drawable/group_5"
+            android:layout_marginStart="80dp"/>
+
+        <ImageButton
+            android:id="@+id/btnSalirGrupo"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:background="@color/transparent"
+            android:contentDescription="Salir del Grupo"
+            app:srcCompat="@drawable/group_6"
+            android:layout_marginStart="80dp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
