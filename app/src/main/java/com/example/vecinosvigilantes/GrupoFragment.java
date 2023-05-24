@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -17,12 +19,16 @@ import android.widget.Toast;
 import com.example.vecinosvigilantes.administrador.aplicacion.activities.InfoGrupoActivity;
 import com.example.vecinosvigilantes.vecino.aplicacion.activities.CompartirGrupoActivity;
 import com.example.vecinosvigilantes.vecino.aplicacion.activities.SeleccionMetodoEntradaGrupoActivity;
+import com.example.vecinosvigilantes.vecino.aplicacion.logica.AdapterAlertas;
+import com.example.vecinosvigilantes.vecino.dominio.AlertaClass;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class GrupoFragment extends Fragment {
     private View root;
@@ -33,10 +39,15 @@ public class GrupoFragment extends Fragment {
 
     DatabaseReference referenciaGrupo;
 
+    DatabaseReference referenciaAlertas;
+
     TextView nomGrupo;
     ImageButton newGrup;
     ImageButton entrarGrupo;
     ImageButton btnAjustes;
+    private RecyclerView recyclerAlertasGrupo;
+    ArrayList<AlertaClass> listaAlertas;
+    private AdapterAlertas adapterAlertas;
 
     public GrupoFragment() {
         // Required empty public constructor
@@ -64,11 +75,20 @@ public class GrupoFragment extends Fragment {
         btnAjustes = (ImageButton) root.findViewById(R.id.btnAjustesGrupo);
         nomGrupo = (TextView) root.findViewById(R.id.txtGrupo);
 
+        recyclerAlertasGrupo = (RecyclerView) root.findViewById(R.id.recyclerAlertasGrupo);
+        recyclerAlertasGrupo.setHasFixedSize(true);
+        recyclerAlertasGrupo.setLayoutManager(new LinearLayoutManager(root.getContext()));
+
+        listaAlertas = new ArrayList<>();
+        adapterAlertas = new AdapterAlertas(root.getContext(),listaAlertas);
+        recyclerAlertasGrupo.setAdapter(adapterAlertas);
+
         String idUsuarioLog = firebaseAuth.getCurrentUser().getUid();
 
         referenciaUsuario = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog);
 
         verificarGrupo();
+
 
         newGrup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +132,7 @@ public class GrupoFragment extends Fragment {
                     btnAjustes.setVisibility(View.INVISIBLE);
                 } else {
                     infoGrupo(id_grupo);
+                    cargarAlertas(id_grupo);
                     newGrup.setVisibility(View.INVISIBLE);
                     entrarGrupo.setVisibility(View.INVISIBLE);
                 }
@@ -137,6 +158,25 @@ public class GrupoFragment extends Fragment {
 
                 }
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void cargarAlertas(String idGrupo){
+        referenciaAlertas = FirebaseDatabase.getInstance().getReference("Grupos").child(idGrupo).child("Alertas");
+        referenciaAlertas.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    AlertaClass alerta = dataSnapshot.getValue(AlertaClass.class);
+                    listaAlertas.add(alerta);
+                }
+                adapterAlertas.notifyDataSetChanged();
+            }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
