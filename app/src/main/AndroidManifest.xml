@@ -15,6 +15,14 @@
         android:theme="@style/Theme.VecinosVigilantes"
         tools:targetApi="31">
         <activity
+            android:name=".MapasUsuarios"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDypPzuJT-sd1xH4P10MH0rMlZy2vbbAxI" />
+
+        <activity
             android:name=".administrador.aplicacion.activities.InfoGrupoActivity"
             android:exported="false" />
         <activity

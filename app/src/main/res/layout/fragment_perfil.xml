@@ -63,7 +63,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:text="Bienvenido"
         android:textAlignment="viewStart"
@@ -78,7 +78,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginStart="105dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/fotoperfilredonda"
         android:clipToOutline="true"
         android:src="@drawable/default_profilepic"
@@ -137,21 +137,22 @@
         android:layout_marginBottom="14dp"
         android:text="Alertas Generadas:"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerAlertasUsuario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.076"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nombreUsuarioLog" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="409dp"
-        android:layout_height="316dp"
-        android:layout_marginTop="1dp"
+        android:id="@+id/recyclerAlertasUsuario"
+        android:layout_width="413dp"
+        android:layout_height="391dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/nombreUsuarioLog"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/imageView14"
@@ -160,7 +161,7 @@
         android:layout_marginStart="111dp"
         android:layout_marginEnd="1dp"
         android:src="@drawable/group_8"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerAlertasUsuario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView9" />

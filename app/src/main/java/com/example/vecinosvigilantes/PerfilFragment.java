@@ -10,6 +10,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.vecinosvigilantes.vecino.aplicacion.logica.AdapterAlertas;
 import com.example.vecinosvigilantes.vecino.aplicacion.logica.DialogCambiarNombre;
+import com.example.vecinosvigilantes.vecino.dominio.AlertaClass;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,15 +40,21 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PerfilFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
+    private DatabaseReference referenciaAlertas;
     private StorageReference storageReference;
 
     private static final int GALLERY_INTENT = 1;
     private ImageView fotoPerfil;
+    private RecyclerView recyclerAlertas;
+    ArrayList<AlertaClass> listaAlertas;
+    private AdapterAlertas adapterAlertas;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -74,16 +85,44 @@ public class PerfilFragment extends Fragment {
         ImageButton btnCambiarNombre = (ImageButton) root.findViewById(R.id.btnCambiarNombre);
         ImageButton btnCambiarFoto = (ImageButton) root.findViewById(R.id.btnCambiarFoto);
 
+        recyclerAlertas = (RecyclerView) root.findViewById(R.id.recyclerAlertasUsuario);
+        recyclerAlertas.setHasFixedSize(true);
+        recyclerAlertas.setLayoutManager(new LinearLayoutManager(root.getContext()));
+
+        listaAlertas = new ArrayList<>();
+        adapterAlertas = new AdapterAlertas(root.getContext(),listaAlertas);
+        recyclerAlertas.setAdapter(adapterAlertas);
+
         fotoPerfil = (ImageView) root.findViewById(R.id.imagePerfil);
+
+
 
         String usuarioLog = firebaseAuth.getCurrentUser().getEmail();
         String idUsuarioLog = firebaseAuth.getCurrentUser().getUid();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog);
+        referenciaAlertas = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog).child("AlertasGeneradas");
 
         txtUsuario.setText("Usuario logeado " + usuarioLog);
 
         cargarInfoUsuario(fotoPerfil, nomUsuarioLog);
+        referenciaAlertas.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    AlertaClass alerta = dataSnapshot.getValue(AlertaClass.class);
+                    listaAlertas.add(alerta);
+                }
+                adapterAlertas.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
         btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +156,8 @@ public class PerfilFragment extends Fragment {
         return root;
 
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -179,4 +220,6 @@ public class PerfilFragment extends Fragment {
         DialogCambiarNombre dialog = new DialogCambiarNombre();
         dialog.show(getParentFragmentManager(),"Cambiar nombre");
     }
+
+
 }

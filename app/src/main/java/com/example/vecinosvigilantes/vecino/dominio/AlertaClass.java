@@ -18,6 +18,9 @@ public class AlertaClass {
         this.ubicacion = ubicacion;
     }
 
+    public AlertaClass() {
+    }
+
     public String getTipoAlarma() {
         return tipoAlarma;
     }
