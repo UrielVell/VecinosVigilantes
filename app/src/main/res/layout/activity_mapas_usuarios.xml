@@ -46,7 +46,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtLongitud"
         map:cameraZoom="10"
-        map:uiRotateGesture="true"
+        map:uiRotateGestures="true"
         map:uiZoomControls="true"
         tools:ignore="MissingConstraints"
         tools:layout="@android:layout/simple_gallery_item" />
