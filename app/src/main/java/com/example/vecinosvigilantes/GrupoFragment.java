@@ -50,7 +50,7 @@ public class GrupoFragment extends Fragment {
     private AdapterAlertas adapterAlertas;
 
     public GrupoFragment() {
-        // Required empty public constructor
+        //requiere un constructor publico vacio
     }
 
     public static GrupoFragment newInstance() {
