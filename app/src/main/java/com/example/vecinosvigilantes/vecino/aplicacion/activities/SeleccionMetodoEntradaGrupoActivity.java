@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.vecinosvigilantes.R;
 import com.example.vecinosvigilantes.vecino.aplicacion.logica.Captureactivityportrain;
+import com.example.vecinosvigilantes.vecino.dominio.UsuarioClass;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -26,12 +27,16 @@ import com.google.firebase.database.ValueEventListener;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SeleccionMetodoEntradaGrupoActivity extends AppCompatActivity {
     FirebaseDatabase db = FirebaseDatabase.getInstance();
     DatabaseReference grupoRef= db.getInstance().getReference().child("Grupos");
-    FirebaseAuth mAuth;
+    FirebaseAuth mAuth=FirebaseAuth.getInstance();
     //String id = mAuth.getCurrentUser().getUid();
     //String name = mAuth.getCurrentUser().toString();
+    //String email = mAuth.getCurrentUser().getEmail();
 
 
     @Override
@@ -50,23 +55,33 @@ public class SeleccionMetodoEntradaGrupoActivity extends AppCompatActivity {
         });
     }
 
+    boolean exist;
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
                 if(result.getContents() == null) {
-                    Toast.makeText(getApplicationContext(), "Escaneo cancelado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Escaneo cancelado", Toast.LENGTH_LONG).show();
                 } else {
-                    if (existOnDatabase(result.getContents())){
-                        String email = mAuth.getCurrentUser().toString();
-                        DatabaseReference grupoUsuario = db.getInstance().getReference().child("Grupos").child(result.getContents());
-                        DatabaseReference miembros = grupoUsuario.child("miembros");
-                        DatabaseReference nuevoMiembro = miembros.push();
-                        nuevoMiembro.setValue(email);
+                    DatabaseReference queryRef = grupoRef.child(result.getContents());
+                    queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            exist = snapshot.exists();
+                            Toast.makeText(SeleccionMetodoEntradaGrupoActivity.this, ""+exist, Toast.LENGTH_SHORT).show();
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
 
-                        //el grupo del usuario se guarda en un SharedPreferences para mayor acceso
-                        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-                        SharedPreferences.Editor myEdit = sh.edit();
-                        myEdit.putString("GrupoUsuario",grupoUsuario.getKey());
-                        myEdit.commit();
+                    if (exist){
+
+                        String id = mAuth.getCurrentUser().getUid();
+                        DatabaseReference miembros = grupoRef.child(result.getContents()).child("miembros");
+                        Map<String, String> miembro = new HashMap<>();
+                        miembro.put("id_usuario",id);
+                        miembros.setValue(miembro);
+
+
                         Toast.makeText(getApplicationContext(), "Escaneado: " + result.getContents(), Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(this, "El qr no es valido", Toast.LENGTH_SHORT).show();
@@ -75,24 +90,7 @@ public class SeleccionMetodoEntradaGrupoActivity extends AppCompatActivity {
                 }
             });
 
-    boolean exist = false;
-    public boolean existOnDatabase(String key){
-        grupoRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot temp: snapshot.getChildren()) {
-                    if(temp.getKey().equals(key)){
-                        exist = true;
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-        return exist;
-    }
     private void escaner(){
         ScanOptions options = new ScanOptions();
         options.setDesiredBarcodeFormats(ScanOptions.ALL_CODE_TYPES);

@@ -2,11 +2,13 @@ package com.example.vecinosvigilantes.administrador.aplicacion.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.vecinosvigilantes.R;
+import com.example.vecinosvigilantes.vecino.aplicacion.activities.CompartirGrupoActivity;
 
 public class InfoGrupoActivity extends AppCompatActivity {
 
@@ -22,7 +24,13 @@ public class InfoGrupoActivity extends AppCompatActivity {
         ImageButton btnSalirGrupo = (ImageButton) findViewById(R.id.btnSalirGrupo);
         ImageButton btnEliminarGrupo = (ImageButton) findViewById(R.id.btnEliminarGrupo);
 
-
+        btnCompartir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), CompartirGrupoActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btnAtras.setOnClickListener(new View.OnClickListener() {
             @Override

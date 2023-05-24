@@ -79,11 +79,11 @@ public class CrearGrupoActivity extends AppCompatActivity {
                 String id_grupo = null;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     id_grupo = snapshot.child("id_grupo").getValue(String.class);
-                    if(id_grupo.isEmpty()){
-                        creaGrupo(grupo1,id);
-                    } else if (!id_grupo.isEmpty()) {
-                        Toast.makeText(CrearGrupoActivity.this, "Este ususario ya tiene un grupo", Toast.LENGTH_SHORT).show();
-                    }
+                }
+                if(id_grupo.isEmpty()){
+                    creaGrupo(grupo1,id);
+                } else if (!id_grupo.isEmpty()) {
+                    Toast.makeText(CrearGrupoActivity.this, "Este ususario ya tiene un grupo", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
