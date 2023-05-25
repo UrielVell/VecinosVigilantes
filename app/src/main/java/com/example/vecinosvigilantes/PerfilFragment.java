@@ -27,7 +27,7 @@ import com.bumptech.glide.Glide;
 import com.example.vecinosvigilantes.vecino.aplicacion.logica.AdapterAlertas;
 import com.example.vecinosvigilantes.vecino.aplicacion.logica.DialogCambiarNombre;
 import com.example.vecinosvigilantes.vecino.dominio.AlertaClass;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -106,6 +106,7 @@ public class PerfilFragment extends Fragment {
         txtUsuario.setText("Usuario logeado " + usuarioLog);
 
         cargarInfoUsuario(fotoPerfil, nomUsuarioLog);
+
         referenciaAlertas.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
