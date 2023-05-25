@@ -4,7 +4,6 @@ import static android.app.Activity.RESULT_OK;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,19 +31,24 @@ import com.example.vecinosvigilantes.vecino.aplicacion.logica.DialogCambiarNombr
 import com.example.vecinosvigilantes.vecino.dominio.AlertaClass;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.Tag;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class PerfilFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
@@ -157,7 +162,7 @@ public class PerfilFragment extends Fragment {
             }
         });
 
-        btnEliminarPerfil.setOnClickListener(new View.OnClickListener() {
+      /*  btnEliminarPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -174,13 +179,77 @@ public class PerfilFragment extends Fragment {
                             }
                         }).show();
             }
+        });*/
+        btnEliminarPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getAlertDialog();
+            }
         });
+
+
 
         // Inflate the layout for this fragment
         return root;
 
     }
 
+    private void getAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_authentication,null);
+
+        EditText email = dialogView.findViewById(R.id.dialogEmail);
+        EditText password = dialogView.findViewById(R.id.dialogPassword);
+        Button reatenticar = dialogView.findViewById(R.id.btnReautenticar);
+
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        reatenticar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                AuthCredential credential = EmailAuthProvider
+                        .getCredential(email.getText().toString(),password.getText().toString());
+
+                if(user != null){
+                    user.reauthenticate(credential)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                   if(task.isSuccessful()){
+                                       user.delete()
+                                               .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                   @Override
+                                                   public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        alertDialog.dismiss();
+                                                        Toast.makeText(getContext(),"Usuario eliminado",Toast.LENGTH_SHORT).show();
+                                                        FirebaseAuth.getInstance().signOut();
+                                                        startActivity(new Intent(getContext(), IniciarSesionActivity.class));
+                                                        getActivity().finish();
+                                                    }else{
+                                                        alertDialog.dismiss();
+                                                        Toast.makeText(getContext(),"Error al autenticar",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                   }
+                                               });
+
+                                   }else{
+                                       alertDialog.dismiss();
+                                       Toast.makeText(getContext(),"Error al autenticar",Toast.LENGTH_SHORT).show();
+                                   }
+                                }
+                            });
+                }
+
+            }
+        });
+
+    }
 
 
     @Override
