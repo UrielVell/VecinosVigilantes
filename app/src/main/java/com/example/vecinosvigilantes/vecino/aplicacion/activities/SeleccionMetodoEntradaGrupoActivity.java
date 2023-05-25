@@ -29,20 +29,23 @@ import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.HashMap;
 import java.util.Map;
-
 public class SeleccionMetodoEntradaGrupoActivity extends AppCompatActivity {
-    FirebaseDatabase db = FirebaseDatabase.getInstance();
-    DatabaseReference grupoRef= db.getInstance().getReference().child("Grupos");
-    FirebaseAuth mAuth=FirebaseAuth.getInstance();
-    //String id = mAuth.getCurrentUser().getUid();
-    //String name = mAuth.getCurrentUser().toString();
-    //String email = mAuth.getCurrentUser().getEmail();
-
-
+    private final FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private final DatabaseReference grupoRef= db.getInstance().getReference().child("Grupos");
+    private final FirebaseAuth mAuth=FirebaseAuth.getInstance();
+    private DatabaseReference referenciaUsuario;
+    private String nombreUsuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seleccion_metodo_entrada_grupo);
+        ImageButton botonRegresar = (ImageButton) findViewById(R.id.regresarGruposbtn);
+        botonRegresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         scancode();
     }
     private void scancode(){
@@ -54,8 +57,6 @@ public class SeleccionMetodoEntradaGrupoActivity extends AppCompatActivity {
             }
         });
     }
-
-    boolean exist;
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
                 if(result.getContents() == null) {
@@ -65,32 +66,42 @@ public class SeleccionMetodoEntradaGrupoActivity extends AppCompatActivity {
                     queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            exist = snapshot.exists();
-                            Toast.makeText(SeleccionMetodoEntradaGrupoActivity.this, ""+exist, Toast.LENGTH_SHORT).show();
+                            if(snapshot.exists()){
+                                String id = mAuth.getCurrentUser().getUid();
+                                referenciaUsuario=FirebaseDatabase.getInstance().getReference().child("Usuarios").child(id);
+                                referenciaUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        DatabaseReference miembros = grupoRef.child(result.getContents()).child("miembros").child(id);
+                                        Map<String, String> nuevoMiembro = new HashMap<>();
+                                        Toast.makeText(SeleccionMetodoEntradaGrupoActivity.this, snapshot.child("nombre").toString(), Toast.LENGTH_SHORT).show();
+                                        nuevoMiembro.put("nombre",snapshot.child("nombre").getValue().toString());
+                                        miembros.setValue(nuevoMiembro);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
+                                //se agregan el id_grupo al atributo del usuario
+                                Map map=new HashMap();
+                                map.put("id_grupo",result.getContents());
+                                referenciaUsuario.updateChildren(map);
+                                onBackPressed();
+
+                                Toast.makeText(getApplicationContext(), "Escaneado: " + result.getContents(), Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(getApplicationContext(), "El qr no es valido", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                         }
                     });
-
-                    if (exist){
-
-                        String id = mAuth.getCurrentUser().getUid();
-                        DatabaseReference miembros = grupoRef.child(result.getContents()).child("miembros");
-                        Map<String, String> miembro = new HashMap<>();
-                        miembro.put("id_usuario",id);
-                        miembros.setValue(miembro);
-
-
-                        Toast.makeText(getApplicationContext(), "Escaneado: " + result.getContents(), Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(this, "El qr no es valido", Toast.LENGTH_SHORT).show();
-                    }
-
                 }
             });
-
-
     private void escaner(){
         ScanOptions options = new ScanOptions();
         options.setDesiredBarcodeFormats(ScanOptions.ALL_CODE_TYPES);

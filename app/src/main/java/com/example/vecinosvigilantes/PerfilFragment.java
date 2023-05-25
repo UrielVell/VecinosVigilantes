@@ -3,6 +3,8 @@ package com.example.vecinosvigilantes;
 import static android.app.Activity.RESULT_OK;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,7 +29,6 @@ import com.bumptech.glide.Glide;
 import com.example.vecinosvigilantes.vecino.aplicacion.logica.AdapterAlertas;
 import com.example.vecinosvigilantes.vecino.aplicacion.logica.DialogCambiarNombre;
 import com.example.vecinosvigilantes.vecino.dominio.AlertaClass;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -84,6 +85,9 @@ public class PerfilFragment extends Fragment {
         ImageButton btnCerrarSesion = (ImageButton) root.findViewById(R.id.btnCerrarSesion);
         ImageButton btnCambiarNombre = (ImageButton) root.findViewById(R.id.btnCambiarNombre);
         ImageButton btnCambiarFoto = (ImageButton) root.findViewById(R.id.btnCambiarFoto);
+        ImageButton btnEliminarPerfil = (ImageButton) root.findViewById(R.id.btnEliminarPerfil);
+
+
 
         recyclerAlertas = (RecyclerView) root.findViewById(R.id.recyclerAlertasUsuario);
         recyclerAlertas.setHasFixedSize(true);
@@ -150,6 +154,25 @@ public class PerfilFragment extends Fragment {
                 intent.setType("image/*");
                 startActivityForResult(intent, GALLERY_INTENT);
 
+            }
+        });
+
+        btnEliminarPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Desea eliminar su cuenta")
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).show();
             }
         });
 
