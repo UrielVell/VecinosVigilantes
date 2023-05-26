@@ -1,32 +1,42 @@
 package com.example.vecinosvigilantes.administrador.aplicacion.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.vecinosvigilantes.R;
 import com.example.vecinosvigilantes.vecino.aplicacion.activities.CompartirGrupoActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.HashMap;
 
 public class InfoGrupoActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
 
     DatabaseReference referenciaUsuario;
-    DatabaseReference refernciaGrupo;
+    DatabaseReference referenciaGrupo;
     ImageView fotoGrupo;
     EditText txtNombreGrupo;
 
@@ -34,6 +44,11 @@ public class InfoGrupoActivity extends AppCompatActivity {
     ImageButton btnCambiarNombreGrupo;
     ImageButton btnCompartir;
     ImageButton btnEliminarGrupo;
+
+    StorageReference storageReference;
+    public String id_Grupo;
+
+    private static final int GALLERY_INTENT = 1;
 
 
 
@@ -50,7 +65,7 @@ public class InfoGrupoActivity extends AppCompatActivity {
         btnEliminarGrupo = (ImageButton) findViewById(R.id.btnEliminarGrupo);
         fotoGrupo = (ImageView) findViewById(R.id.imgFotoGrupo);
         txtNombreGrupo = (EditText) findViewById(R.id.txtNombreGrupo);
-
+        storageReference= FirebaseStorage.getInstance().getReference();
 
 
 
@@ -59,7 +74,7 @@ public class InfoGrupoActivity extends AppCompatActivity {
 
         String idUsuarioLog = auth.getCurrentUser().getUid();
         referenciaUsuario = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog);
-        refernciaGrupo = FirebaseDatabase.getInstance().getReference("Grupos");
+        referenciaGrupo = FirebaseDatabase.getInstance().getReference("Grupos");
 
         buscarGrupo(idUsuarioLog);
 
@@ -80,6 +95,53 @@ public class InfoGrupoActivity extends AppCompatActivity {
         });
     }
 
+
+    public void abrirGaleria(View view) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, GALLERY_INTENT);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == GALLERY_INTENT && resultCode == RESULT_OK){
+            Uri uri = data.getData();
+
+            StorageReference rutaFotos = storageReference.child("fotosGrupo/").child(uri.getLastPathSegment());
+
+            rutaFotos.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(getApplicationContext(), "Foto cambiada", Toast.LENGTH_SHORT).show();
+                    storageReference.child("fotosGrupo").child(uri.getLastPathSegment()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Uri ppic = uri;
+                            String newppuser = ppic.toString();
+                            HashMap map = new HashMap();
+                            map.put("logo", newppuser);
+                            referenciaGrupo.child(id_Grupo).updateChildren(map);
+                            Glide.with(getApplicationContext()).load(newppuser).into(fotoGrupo);
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "Error al cambiar la imagen", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
     public void buscarGrupo(String idUsuario){
         referenciaUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
             String idGrupo;
@@ -88,6 +150,7 @@ public class InfoGrupoActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                    idGrupo = snapshot.child("id_grupo").getValue(String.class);
                 }
+                id_Grupo=idGrupo;
                 cargarInfoGrupo(idGrupo,fotoGrupo,txtNombreGrupo,idUsuario);
             }
             @Override
@@ -97,8 +160,9 @@ public class InfoGrupoActivity extends AppCompatActivity {
         });
     }
 
+
     public void cargarInfoGrupo(String idGrupo, ImageView foto, EditText nombre, String idUsuario){
-        refernciaGrupo.child(idGrupo).addListenerForSingleValueEvent(new ValueEventListener() {
+        referenciaGrupo.child(idGrupo).addListenerForSingleValueEvent(new ValueEventListener() {
             String nombreGrupo;
             String fotoGrupo;
             String admin;
