@@ -54,7 +54,6 @@ public class MapasUsuarios extends AppCompatActivity implements OnMapReadyCallba
         LatLng mexico = new LatLng(latLng.latitude, latLng.longitude);
         mMap.addMarker(new MarkerOptions().position(mexico).title(""));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mexico));
-
     }
 
     @Override
