@@ -1,6 +1,7 @@
 package com.example.vecinosvigilantes.vecino.dominio;
 
 public class UsuarioClass {
+    private String id_usuario;
     private String nombre;
     private String correo;
     private String pp;
@@ -11,6 +12,9 @@ public class UsuarioClass {
         this.correo = correo;
         this.pp = pp;
         this.id_grupo=id_grupo;
+    }
+    public UsuarioClass(String id_usuario){
+        this.id_usuario = id_usuario;
     }
 
     public String getNombre() {

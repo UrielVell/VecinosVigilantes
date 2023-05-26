@@ -3,6 +3,7 @@ package com.example.vecinosvigilantes;
 import static android.app.Activity.RESULT_OK;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,40 +11,56 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.vecinosvigilantes.vecino.aplicacion.logica.AdapterAlertas;
 import com.example.vecinosvigilantes.vecino.aplicacion.logica.DialogCambiarNombre;
+import com.example.vecinosvigilantes.vecino.dominio.AlertaClass;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.Tag;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PerfilFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
+    private DatabaseReference referenciaAlertas;
     private StorageReference storageReference;
 
     private static final int GALLERY_INTENT = 1;
     private ImageView fotoPerfil;
+    private RecyclerView recyclerAlertas;
+    ArrayList<AlertaClass> listaAlertas;
+    private AdapterAlertas adapterAlertas;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -73,17 +90,49 @@ public class PerfilFragment extends Fragment {
         ImageButton btnCerrarSesion = (ImageButton) root.findViewById(R.id.btnCerrarSesion);
         ImageButton btnCambiarNombre = (ImageButton) root.findViewById(R.id.btnCambiarNombre);
         ImageButton btnCambiarFoto = (ImageButton) root.findViewById(R.id.btnCambiarFoto);
+        ImageButton btnEliminarPerfil = (ImageButton) root.findViewById(R.id.btnEliminarPerfil);
+
+
+
+        recyclerAlertas = (RecyclerView) root.findViewById(R.id.recyclerAlertasUsuario);
+        recyclerAlertas.setHasFixedSize(true);
+        recyclerAlertas.setLayoutManager(new LinearLayoutManager(root.getContext()));
+
+        listaAlertas = new ArrayList<>();
+        adapterAlertas = new AdapterAlertas(root.getContext(),listaAlertas);
+        recyclerAlertas.setAdapter(adapterAlertas);
 
         fotoPerfil = (ImageView) root.findViewById(R.id.imagePerfil);
+
+
 
         String usuarioLog = firebaseAuth.getCurrentUser().getEmail();
         String idUsuarioLog = firebaseAuth.getCurrentUser().getUid();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog);
+        referenciaAlertas = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog).child("AlertasGeneradas");
 
         txtUsuario.setText("Usuario logeado " + usuarioLog);
 
         cargarInfoUsuario(fotoPerfil, nomUsuarioLog);
+
+        referenciaAlertas.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    AlertaClass alerta = dataSnapshot.getValue(AlertaClass.class);
+                    listaAlertas.add(alerta);
+                }
+                adapterAlertas.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
         btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,10 +162,95 @@ public class PerfilFragment extends Fragment {
             }
         });
 
+      /*  btnEliminarPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Desea eliminar su cuenta")
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).show();
+            }
+        });*/
+        btnEliminarPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getAlertDialog();
+            }
+        });
+
+
+
         // Inflate the layout for this fragment
         return root;
 
     }
+
+    private void getAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_authentication,null);
+
+        EditText email = dialogView.findViewById(R.id.dialogEmail);
+        EditText password = dialogView.findViewById(R.id.dialogPassword);
+        Button reatenticar = dialogView.findViewById(R.id.btnReautenticar);
+
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        reatenticar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                AuthCredential credential = EmailAuthProvider
+                        .getCredential(email.getText().toString(),password.getText().toString());
+
+                if(user != null){
+                    user.reauthenticate(credential)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                   if(task.isSuccessful()){
+                                       user.delete()
+                                               .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                   @Override
+                                                   public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        alertDialog.dismiss();
+                                                        Toast.makeText(getContext(),"Usuario eliminado",Toast.LENGTH_SHORT).show();
+                                                        FirebaseAuth.getInstance().signOut();
+                                                        startActivity(new Intent(getContext(), IniciarSesionActivity.class));
+                                                        getActivity().finish();
+                                                    }else{
+                                                        alertDialog.dismiss();
+                                                        Toast.makeText(getContext(),"Error al autenticar",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                   }
+                                               });
+
+                                   }else{
+                                       alertDialog.dismiss();
+                                       Toast.makeText(getContext(),"Error al autenticar",Toast.LENGTH_SHORT).show();
+                                   }
+                                }
+                            });
+                }
+
+            }
+        });
+
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -179,4 +313,6 @@ public class PerfilFragment extends Fragment {
         DialogCambiarNombre dialog = new DialogCambiarNombre();
         dialog.show(getParentFragmentManager(),"Cambiar nombre");
     }
+
+
 }
