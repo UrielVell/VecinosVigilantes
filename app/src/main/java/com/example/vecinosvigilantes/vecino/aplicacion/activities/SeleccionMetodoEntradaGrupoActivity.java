@@ -76,6 +76,7 @@ public class SeleccionMetodoEntradaGrupoActivity extends AppCompatActivity {
                                         Map<String, String> nuevoMiembro = new HashMap<>();
                                         Toast.makeText(SeleccionMetodoEntradaGrupoActivity.this, snapshot.child("nombre").toString(), Toast.LENGTH_SHORT).show();
                                         nuevoMiembro.put("nombre",snapshot.child("nombre").getValue().toString());
+                                        nuevoMiembro.put("imagen_perfil",snapshot.child("pp").getValue().toString());
                                         miembros.setValue(nuevoMiembro);
                                     }
 
