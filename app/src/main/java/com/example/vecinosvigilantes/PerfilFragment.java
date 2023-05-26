@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.example.vecinosvigilantes.vecino.aplicacion.logica.AdapterAlertas;
 import com.example.vecinosvigilantes.vecino.aplicacion.logica.DialogCambiarNombre;
 import com.example.vecinosvigilantes.vecino.dominio.AlertaClass;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
