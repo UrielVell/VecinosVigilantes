@@ -9,11 +9,12 @@
         android:id="@+id/dialogEmail"
         android:layout_width="259dp"
         android:layout_height="91dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="116dp"
         android:ems="10"
         android:hint="Correo"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,23 +22,45 @@
         android:id="@+id/dialogPassword"
         android:layout_width="258dp"
         android:layout_height="80dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="Contraseña"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialogEmail" />
 
     <Button
         android:id="@+id/btnReautenticar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="176dp"
+        android:layout_height="51dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Re autenticar"
+        android:background="@drawable/fondobotones"
+        android:text="Eliminar"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialogPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/dialogPassword"
+        app:layout_constraintVertical_bias="0.084" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="288dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginBottom="25dp"
+        android:text="Confirme sus datos pra eliminar su cuenta"
+        android:textAlignment="center"
+        android:textColor="@color/light_blue_A400"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/dialogEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.456" />
 </androidx.constraintlayout.widget.ConstraintLayout>

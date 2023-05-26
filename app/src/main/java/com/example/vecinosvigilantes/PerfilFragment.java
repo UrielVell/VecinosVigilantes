@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.example.vecinosvigilantes.vecino.aplicacion.logica.AdapterAlertas;
 import com.example.vecinosvigilantes.vecino.aplicacion.logica.DialogCambiarNombre;
 import com.example.vecinosvigilantes.vecino.dominio.AlertaClass;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -54,6 +55,8 @@ public class PerfilFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
     private DatabaseReference referenciaAlertas;
+    private DatabaseReference referenciaGrupo;
+    private String idGrupo;
     private StorageReference storageReference;
 
     private static final int GALLERY_INTENT = 1;
@@ -61,6 +64,7 @@ public class PerfilFragment extends Fragment {
     private RecyclerView recyclerAlertas;
     ArrayList<AlertaClass> listaAlertas;
     private AdapterAlertas adapterAlertas;
+    String idUsuarioLog;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -107,7 +111,7 @@ public class PerfilFragment extends Fragment {
 
 
         String usuarioLog = firebaseAuth.getCurrentUser().getEmail();
-        String idUsuarioLog = firebaseAuth.getCurrentUser().getUid();
+        idUsuarioLog = firebaseAuth.getCurrentUser().getUid();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog);
         referenciaAlertas = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog).child("AlertasGeneradas");
@@ -196,6 +200,8 @@ public class PerfilFragment extends Fragment {
     }
 
     private void getAlertDialog(){
+        referenciaGrupo = FirebaseDatabase.getInstance().getReference("Grupos").child(idGrupo).child("miembros").child(idUsuarioLog);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_authentication,null);
 
@@ -205,6 +211,7 @@ public class PerfilFragment extends Fragment {
 
         builder.setView(dialogView);
         AlertDialog alertDialog = builder.create();
+        alertDialog.setTitle("Eliminar cuenta");
         alertDialog.show();
 
         reatenticar.setOnClickListener(new View.OnClickListener() {
@@ -226,6 +233,8 @@ public class PerfilFragment extends Fragment {
                                                    @Override
                                                    public void onComplete(@NonNull Task<Void> task) {
                                                     if(task.isSuccessful()){
+                                                        databaseReference.removeValue();
+                                                        referenciaGrupo.removeValue();
                                                         alertDialog.dismiss();
                                                         Toast.makeText(getContext(),"Usuario eliminado",Toast.LENGTH_SHORT).show();
                                                         FirebaseAuth.getInstance().signOut();
@@ -298,6 +307,7 @@ public class PerfilFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     String pp = snapshot.child("pp").getValue(String.class);
                     String nombre = snapshot.child("nombre").getValue(String.class);
+                    idGrupo = snapshot.child("id_grupo").getValue(String.class);
                     Glide.with(getContext()).load(pp).into(fotoPerfil);
                     nombreUsLog.setText(nombre);
                 }
@@ -313,6 +323,7 @@ public class PerfilFragment extends Fragment {
         DialogCambiarNombre dialog = new DialogCambiarNombre();
         dialog.show(getParentFragmentManager(),"Cambiar nombre");
     }
+
 
 
 }
