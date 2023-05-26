@@ -60,12 +60,13 @@
         android:layout_marginTop="252dp"
         android:layout_marginEnd="24dp"
         android:background="@color/transparent"
+        android:contentDescription="Cambiar foto de Grupo"
+        android:onClick="abreGaleria"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@+id/imgFotoGrupo"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:srcCompat="@drawable/group_7"
-        android:contentDescription="Cambiar foto de Grupo"/>
+        app:srcCompat="@drawable/group_7" />
 
     <EditText
         android:id="@+id/txtNombreGrupo"
@@ -100,25 +101,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
         android:layout_marginTop="21dp"
-        android:layout_marginBottom="12dp"
         android:fontFamily="@font/lato"
         android:text="Integrantes:"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNombreGrupo"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView2"
-        android:layout_width="411dp"
-        android:layout_height="273dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/txtNombreGrupo" />
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -126,42 +113,42 @@
         android:layout_height="70dp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
             android:id="@+id/btnCompartir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:layout_weight="0"
-            app:srcCompat="@drawable/group_10"
             android:background="@color/transparent"
             android:contentDescription="Compartir Grupo"
-            android:layout_marginStart="30dp"/>
+            app:srcCompat="@drawable/group_10" />
 
         <ImageButton
             android:id="@+id/btnEliminarGrupo"
             android:layout_width="70dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="80dp"
             android:layout_weight="0"
             android:background="@color/transparent"
             android:contentDescription="Eliminar Grupo"
-            app:srcCompat="@drawable/group_5"
-            android:layout_marginStart="80dp"/>
+            app:srcCompat="@drawable/group_5" />
 
         <ImageButton
             android:id="@+id/btnSalirGrupo"
             android:layout_width="70dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="80dp"
             android:layout_weight="0"
             android:background="@color/transparent"
             android:contentDescription="Salir del Grupo"
-            app:srcCompat="@drawable/group_6"
-            android:layout_marginStart="80dp"/>
+            app:srcCompat="@drawable/group_6" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
