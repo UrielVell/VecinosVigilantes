@@ -34,7 +34,6 @@ public class SeleccionMetodoEntradaGrupoActivity extends AppCompatActivity {
     private final DatabaseReference grupoRef= db.getInstance().getReference().child("Grupos");
     private final FirebaseAuth mAuth=FirebaseAuth.getInstance();
     private DatabaseReference referenciaUsuario;
-    private String nombreUsuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
