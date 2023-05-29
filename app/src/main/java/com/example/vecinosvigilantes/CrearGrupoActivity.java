@@ -95,6 +95,13 @@ public class CrearGrupoActivity extends AppCompatActivity {
     }
 
 
+    public void SalirGrupo(){
+        String idUsuarioLog = autenticacion.getCurrentUser().getUid();
+        referenciaUsuario = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog).child("id_grupo");
+        String idGtupoUs=referenciaUsuario.toString();
+    }
+
+
 
 }
 
