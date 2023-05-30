@@ -3,9 +3,12 @@ package com.example.vecinosvigilantes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.example.vecinosvigilantes.vecino.aplicacion.activities.SeleccionMetodoEntradaGrupoActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class InicioAppActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -26,6 +29,10 @@ public class InicioAppActivity extends AppCompatActivity implements BottomNaviga
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.alertas);
 
+    }
+    public void abrirPantallaMapa(View view){
+        Intent intent = new Intent(getApplicationContext(), MapasUsuarios.class);
+        startActivity(intent);
     }
 
     @Override

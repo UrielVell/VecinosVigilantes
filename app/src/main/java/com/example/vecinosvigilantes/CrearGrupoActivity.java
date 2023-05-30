@@ -33,16 +33,13 @@ public class CrearGrupoActivity extends AppCompatActivity {
     private EditText nombreGrupo=null;
     private ImageButton imj=null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_grupo);
         autenticacion=FirebaseAuth.getInstance();
         referencia=FirebaseDatabase.getInstance().getReference();
-
     }
-
     public void extraeInfoGrupo(View view) {
         nombreGrupo = findViewById(R.id.editTextTextPersonName);
         if (nombreGrupo.getText().toString().isEmpty()){
@@ -50,11 +47,10 @@ public class CrearGrupoActivity extends AppCompatActivity {
         }else {
             String newNombre = nombreGrupo.getText().toString();
             String idUsuarioLog = autenticacion.getCurrentUser().getUid();
-            String urlImagen = "logo";
+            String urlImagen = "";
             Grupo grupo1 = new Grupo(newNombre, idUsuarioLog, urlImagen);
             referenciaUsuario=FirebaseDatabase.getInstance().getReference().child("Usuarios").child(idUsuarioLog);
             verificarGrupo(idUsuarioLog, grupo1);
-            //referencia para agregar la referencia del id del grupo
 
         }
         }
@@ -98,13 +94,15 @@ public class CrearGrupoActivity extends AppCompatActivity {
         referenciaUsuario.updateChildren(map);
     }
 
-    public void abreGaleria(View view){
-        Intent intent =new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent, GALLERY_INTENT);
-        //  Uri path=intent.getData();
-        // imj.setImageURI(path);
+
+    public void SalirGrupo(){
+        String idUsuarioLog = autenticacion.getCurrentUser().getUid();
+        referenciaUsuario = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog).child("id_grupo");
+        String idGtupoUs=referenciaUsuario.toString();
     }
+
+
+
 }
 
 

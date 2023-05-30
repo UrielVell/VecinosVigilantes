@@ -1,5 +1,7 @@
 package com.example.vecinosvigilantes;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.vecinosvigilantes.vecino.aplicacion.logica.PowerButtonReceiver;
 import com.example.vecinosvigilantes.vecino.dominio.AlertaClass;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -26,6 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import android.content.Context;
 
 
 public class AlertasFragment extends Fragment {
@@ -34,8 +38,6 @@ public class AlertasFragment extends Fragment {
     DatabaseReference referenciaUsuario;
     DatabaseReference referenciaGrupo;
     String idUsuarioLog;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +56,14 @@ public class AlertasFragment extends Fragment {
 
         referenciaUsuario = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog);
         referenciaGrupo = FirebaseDatabase.getInstance().getReference("Grupos");
+
+        //reciber powerbuttonon
+        PowerButtonReceiver receiver = new PowerButtonReceiver();
+        receiver.setAlertasFragment(this);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        getActivity().registerReceiver(receiver, filter);
 
        btnEmergencia.setOnClickListener(new View.OnClickListener() {
            @Override
