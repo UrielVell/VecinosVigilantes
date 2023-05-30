@@ -33,6 +33,7 @@ import java.util.HashMap;
 
 public class InfoGrupoActivity extends AppCompatActivity {
 
+    private FirebaseAuth autenticacion;
     FirebaseAuth auth;
 
     DatabaseReference referenciaUsuario;
@@ -44,10 +45,10 @@ public class InfoGrupoActivity extends AppCompatActivity {
     ImageButton btnCambiarNombreGrupo;
     ImageButton btnCompartir;
     ImageButton btnEliminarGrupo;
-
+    ImageButton btnSalirGrupo;
     StorageReference storageReference;
     public String id_Grupo;
-
+    public  String idUsuarioLog;
     private static final int GALLERY_INTENT = 1;
 
 
@@ -61,21 +62,16 @@ public class InfoGrupoActivity extends AppCompatActivity {
         btnCambiarFotoGrupo = (ImageButton) findViewById(R.id.btnCambiarFotoGrupo);
         btnCambiarNombreGrupo = (ImageButton) findViewById(R.id.btnCambiarNombreGrupo);
         btnCompartir = (ImageButton) findViewById(R.id.btnCompartir);
-        ImageButton btnSalirGrupo = (ImageButton) findViewById(R.id.btnSalirGrupo);
         btnEliminarGrupo = (ImageButton) findViewById(R.id.btnEliminarGrupo);
+        btnSalirGrupo = (ImageButton) findViewById(R.id.btnSalirGrupo);
         fotoGrupo = (ImageView) findViewById(R.id.imgFotoGrupo);
         txtNombreGrupo = (EditText) findViewById(R.id.txtNombreGrupo);
         storageReference= FirebaseStorage.getInstance().getReference();
-
-
-
-
+        autenticacion=FirebaseAuth.getInstance();
         auth = FirebaseAuth.getInstance();
-
-        String idUsuarioLog = auth.getCurrentUser().getUid();
+        idUsuarioLog=auth.getCurrentUser().getUid();
         referenciaUsuario = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog);
         referenciaGrupo = FirebaseDatabase.getInstance().getReference("Grupos");
-
         buscarGrupo(idUsuarioLog);
 
 
@@ -93,7 +89,25 @@ public class InfoGrupoActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        btnSalirGrupo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                salirGrupo();
+                Toast.makeText(InfoGrupoActivity.this, id_Grupo, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+    //salir grupo
+   public void salirGrupo(){
+        String refId_grupo=id_Grupo;
+        referenciaGrupo.child(id_Grupo).child("miembros").child(idUsuarioLog);
+        referenciaGrupo.removeValue();
+    }
+
+
+    ////
 
 
     public void abrirGaleria(View view) {
@@ -190,4 +204,8 @@ public class InfoGrupoActivity extends AppCompatActivity {
         });
 
     }
+
+
+
+
 }
