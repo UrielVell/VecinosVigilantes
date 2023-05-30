@@ -137,32 +137,41 @@
         <ImageButton
             android:id="@+id/btnCompartir"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="30dp"
             android:layout_weight="0"
-            app:srcCompat="@drawable/group_10"
             android:background="@color/transparent"
             android:contentDescription="Compartir Grupo"
-            android:layout_marginStart="30dp"/>
+            app:srcCompat="@drawable/group_10" />
 
         <ImageButton
             android:id="@+id/btnEliminarGrupo"
             android:layout_width="70dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="30dp"
             android:layout_weight="0"
             android:background="@color/transparent"
             android:contentDescription="Eliminar Grupo"
-            app:srcCompat="@drawable/group_5"
-            android:layout_marginStart="80dp"/>
+            app:srcCompat="@drawable/group_5" />
 
         <ImageButton
             android:id="@+id/btnSalirGrupo"
             android:layout_width="70dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="30dp"
             android:layout_weight="0"
             android:background="@color/transparent"
             android:contentDescription="Salir del Grupo"
-            app:srcCompat="@drawable/group_6"
-            android:layout_marginStart="80dp"/>
+            app:srcCompat="@drawable/group_6" />
+
+        <ImageButton
+            android:id="@+id/btnDescargarAlertasGrupo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:background="@color/transparent"
+            app:srcCompat="@drawable/group_8"
+            android:layout_marginStart="30dp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

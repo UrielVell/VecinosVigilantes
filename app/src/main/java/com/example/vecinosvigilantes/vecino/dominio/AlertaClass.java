@@ -68,4 +68,14 @@ public class AlertaClass {
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
+
+    @Override
+    public String toString() {
+        return "Alerta: " +
+                "Tipo de Alerta = '" + tipoAlarma + '\'' +
+                ", Fecha = '" + fecha + '\'' +
+                ", Hora = '" + hora + '\'' +
+                ", Ubicación = '" + ubicacion + '\'' +
+                '.';
+    }
 }

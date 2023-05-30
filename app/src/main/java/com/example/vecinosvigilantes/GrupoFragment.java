@@ -45,6 +45,7 @@ public class GrupoFragment extends Fragment {
     ImageButton newGrup;
     ImageButton entrarGrupo;
     ImageButton btnAjustes;
+    ImageButton descargarAlertasGrupo;
     private RecyclerView recyclerAlertasGrupo;
     ArrayList<AlertaClass> listaAlertas;
     private AdapterAlertas adapterAlertas;
@@ -83,7 +84,7 @@ public class GrupoFragment extends Fragment {
         adapterAlertas = new AdapterAlertas(root.getContext(),listaAlertas);
         recyclerAlertasGrupo.setAdapter(adapterAlertas);
 
-        String idUsuarioLog = firebaseAuth.getCurrentUser().getUid();
+        String idUsuarioLog = firebaseAuth.getCurrentUser().getUid().toString();
 
         referenciaUsuario = FirebaseDatabase.getInstance().getReference("Usuarios").child(idUsuarioLog);
 
@@ -112,6 +113,8 @@ public class GrupoFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
         return root;
 
     }
@@ -183,6 +186,4 @@ public class GrupoFragment extends Fragment {
             }
         });
     }
-
-
 }

@@ -154,19 +154,6 @@
         app:layout_constraintTop_toBottomOf="@+id/nombreUsuarioLog"
         app:layout_constraintVertical_bias="1.0" />
 
-    <ImageView
-        android:id="@+id/btnDescargas"
-        android:layout_width="55dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="111dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/group_8"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerAlertasUsuario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.915"
-        app:layout_constraintStart_toEndOf="@+id/textView9" />
-
     <ImageButton
         android:id="@+id/btnCambiarFoto"
         android:layout_width="wrap_content"
@@ -181,5 +168,18 @@
         app:layout_constraintStart_toEndOf="@+id/imagePerfil"
         android:background="@color/transparent"
         android:contentDescription="cambiar foto de perfil"/>
+
+    <ImageButton
+        android:id="@+id/btnDescargas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/group_8"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerAlertasUsuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.818"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/nombreUsuarioLog"
+        android:background="@color/transparent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
