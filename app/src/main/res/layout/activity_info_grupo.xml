@@ -124,26 +124,17 @@
         <ImageButton
             android:id="@+id/btnCompartir"
             android:layout_width="wrap_content"
-<<<<<<< HEAD
-            android:layout_height="match_parent"
-=======
-            android:layout_height="wrap_content"
->>>>>>> dc8bbdfd65f590d96fdc466035c11543c4566782
             android:layout_marginStart="30dp"
             android:layout_weight="0"
             android:background="@color/transparent"
             android:contentDescription="Compartir Grupo"
-            app:srcCompat="@drawable/group_10" />
+            app:srcCompat="@drawable/group_10"  android:layout_height="match_parent"/>
 
         <ImageButton
             android:id="@+id/btnEliminarGrupo"
             android:layout_width="70dp"
             android:layout_height="match_parent"
-<<<<<<< HEAD
-            android:layout_marginStart="30dp"
-=======
-            android:layout_marginStart="80dp"
->>>>>>> dc8bbdfd65f590d96fdc466035c11543c4566782
+
             android:layout_weight="0"
             android:background="@color/transparent"
             android:contentDescription="Eliminar Grupo"
@@ -153,27 +144,12 @@
             android:id="@+id/btnSalirGrupo"
             android:layout_width="70dp"
             android:layout_height="match_parent"
-<<<<<<< HEAD
-            android:layout_marginStart="30dp"
-=======
-            android:layout_marginStart="80dp"
->>>>>>> dc8bbdfd65f590d96fdc466035c11543c4566782
+
             android:layout_weight="0"
             android:background="@color/transparent"
             android:contentDescription="Salir del Grupo"
             app:srcCompat="@drawable/group_6" />
-<<<<<<< HEAD
 
-        <ImageButton
-            android:id="@+id/btnDescargarAlertasGrupo"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:background="@color/transparent"
-            app:srcCompat="@drawable/group_8"
-            android:layout_marginStart="30dp"/>
-=======
->>>>>>> dc8bbdfd65f590d96fdc466035c11543c4566782
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
