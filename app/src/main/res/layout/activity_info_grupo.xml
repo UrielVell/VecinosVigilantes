@@ -124,13 +124,11 @@
         <ImageButton
             android:id="@+id/btnCompartir"
             android:layout_width="wrap_content"
-
             android:layout_marginStart="30dp"
             android:layout_weight="0"
             android:background="@color/transparent"
             android:contentDescription="Compartir Grupo"
-            app:srcCompat="@drawable/group_10"
-            android:layout_height="match_parent"/>
+            app:srcCompat="@drawable/group_10"  android:layout_height="match_parent"/>
 
         <ImageButton
             android:id="@+id/btnEliminarGrupo"
@@ -152,28 +150,6 @@
             android:contentDescription="Salir del Grupo"
             app:srcCompat="@drawable/group_6" />
 
-
-        <ImageButton
-            android:id="@+id/btnDescargarAlertasGrupo"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:background="@color/transparent"
-            app:srcCompat="@drawable/group_8"
-            android:contentDescription="rereere"
-            android:layout_marginStart="30dp"/>
-
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="391dp"
-        android:layout_height="232dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
