@@ -110,8 +110,6 @@ public class GrupoFragment extends Fragment {
         btnAjustes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("listaGrupo", (ArrayList<? extends Parcelable>) listaAlertas);
                 Intent intent = new Intent(getContext(), InfoGrupoActivity.class);
                 startActivity(intent);
             }
@@ -134,7 +132,7 @@ public class GrupoFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     id_grupo = snapshot.child("id_grupo").getValue(String.class);
                 }
-                if (id_grupo=="") {
+                if (id_grupo.isEmpty()) {
                     btnAjustes.setVisibility(View.INVISIBLE);
                 } else {
                     infoGrupo(id_grupo);
