@@ -14,25 +14,22 @@
         android:layout_marginEnd="1dp"
         android:background="@color/material_dynamic_neutral_variant80"
         android:orientation="horizontal"
-        android:scrollbarThumbHorizontal="#94F3F2"
-        android:scrollbarThumbVertical="#82C6F6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView11"
+            android:id="@+id/ImageViewFotoPerfil"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_weight="0"
             app:srcCompat="@drawable/default_profilepic" />
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/txtNombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:scrollbarThumbHorizontal="#83EFE5"
             android:text="Nombre:" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

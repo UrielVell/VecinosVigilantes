@@ -3,8 +3,9 @@ package com.example.vecinosvigilantes.administrador.aplicacion.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.vecinosvigilantes.R;
 import com.example.vecinosvigilantes.vecino.aplicacion.activities.CompartirGrupoActivity;
+import com.example.vecinosvigilantes.vecino.aplicacion.logica.AdapterMiembros;
+import com.example.vecinosvigilantes.vecino.dominio.AlertaClass;
+import com.example.vecinosvigilantes.vecino.dominio.UsuarioClass;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +33,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class InfoGrupoActivity extends AppCompatActivity {
@@ -50,6 +55,11 @@ public class InfoGrupoActivity extends AppCompatActivity {
     public String id_Grupo;
     public  String idUsuarioLog;
     private static final int GALLERY_INTENT = 1;
+
+    private ImageView fotoPerfil;
+    private RecyclerView recyclerMiembros;
+    HashMap listaMiembros;
+    private AdapterMiembros adapterMiembros;
 
 
 
@@ -74,12 +84,46 @@ public class InfoGrupoActivity extends AppCompatActivity {
         referenciaGrupo = FirebaseDatabase.getInstance().getReference("Grupos");
         buscarGrupo(idUsuarioLog);
 
+        recyclerMiembros = (RecyclerView) this.findViewById(R.id.recyclerMiembros);
+        recyclerMiembros.setHasFixedSize(true);
+        recyclerMiembros.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        listaMiembros = new HashMap<>();
+        adapterMiembros = new AdapterMiembros(getApplicationContext(),listaMiembros);
+        recyclerMiembros.setAdapter(adapterMiembros);
+
+        fotoPerfil = (ImageView) this.findViewById(R.id.imagePerfil);
+
+        buscarGrupo(idUsuarioLog);
+        DatabaseReference MiembrosGrupo = referenciaGrupo.child("miembros");
+        MiembrosGrupo.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int cont = 0;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+
+                }
+                adapterMiembros.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         btnCompartir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), CompartirGrupoActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        btnEliminarGrupo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 
@@ -97,6 +141,9 @@ public class InfoGrupoActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public String obtenerNombremiembro(){
+        return "";
     }
 
     //salir grupo
