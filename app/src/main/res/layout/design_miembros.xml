@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:scrollbarThumbHorizontal="@color/material_dynamic_neutral30">
 
     <LinearLayout
         android:layout_width="410dp"
@@ -11,7 +12,10 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
+        android:background="@color/material_dynamic_neutral_variant80"
         android:orientation="horizontal"
+        android:scrollbarThumbHorizontal="#94F3F2"
+        android:scrollbarThumbVertical="#82C6F6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -28,6 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:scrollbarThumbHorizontal="#83EFE5"
+            android:text="Nombre:" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
