@@ -116,7 +116,7 @@ public class InfoGrupoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 salirGrupo();
-                Toast.makeText(InfoGrupoActivity.this, id_Grupo, Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -133,11 +133,58 @@ public class InfoGrupoActivity extends AppCompatActivity {
 
     //salir grupo
    public void salirGrupo(){
+
         String refId_grupo=id_Grupo;
-        referenciaGrupo.child(id_Grupo).child("miembros").child(idUsuarioLog);
-        referenciaGrupo.removeValue();
+        DatabaseReference referenciaAdmin=FirebaseDatabase.getInstance().getReference("Grupos")
+                .child(refId_grupo).child("administrador");
+
+
+       DatabaseReference referenciaGrupo2=FirebaseDatabase.getInstance().getReference("Grupos")
+               .child(refId_grupo).child("miembros").child(idUsuarioLog);
+
+       DatabaseReference referenceUsDelete=FirebaseDatabase.getInstance().
+               getReference("Usuarios").child(idUsuarioLog);
+
+        referenciaAdmin.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String accs=snapshot.getValue(String.class);
+                if(accs.equals(idUsuarioLog)){
+                    Toast.makeText(InfoGrupoActivity.this, "Necesitas asignar a otra persona como administrador para poder salir"
+                            , Toast.LENGTH_SHORT).show();
+                }else{
+                  //Elimina el usuario del grupo
+                  referenciaGrupo2.removeValue();
+
+
+                    HashMap map = new HashMap();
+                    String vacio="";
+                    map.put("id_grupo", vacio);
+                    referenceUsDelete.updateChildren(map);
+
+                    Toast.makeText(InfoGrupoActivity.this, "usuario eliminado", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        //referenciaGrupo2.removeValue();
+        //Toast.makeText(InfoGrupoActivity.this, refId_grupo, Toast.LENGTH_SHORT).show();
     }
 
+
+
+    //////
+/*String refId_grupo=id_Grupo;
+
+
+        referenciaGrupo2.removeValue();
+        Toast.makeText(InfoGrupoActivity.this, refId_grupo, Toast.LENGTH_SHORT).show();*/
 
     ////
 
