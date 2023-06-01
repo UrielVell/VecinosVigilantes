@@ -129,9 +129,8 @@ public class InfoGrupoActivity extends AppCompatActivity {
                     String vacio="";
                     map.put("id_grupo", vacio);
                     referenceUsDelete.updateChildren(map);
-
                     Toast.makeText(InfoGrupoActivity.this, "usuario eliminado", Toast.LENGTH_SHORT).show();
-
+                    onBackPressed();
                 }
             }
 
