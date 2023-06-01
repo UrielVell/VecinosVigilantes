@@ -1,5 +1,10 @@
 package com.example.vecinosvigilantes.vecino.dominio;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 public class AlertaClass {
 
     String tipoAlarma;
