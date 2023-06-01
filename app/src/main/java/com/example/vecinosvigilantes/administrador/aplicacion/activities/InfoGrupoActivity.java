@@ -55,8 +55,6 @@ public class InfoGrupoActivity extends AppCompatActivity {
 
     DatabaseReference referenciaUsuario;
     DatabaseReference referenciaGrupo;
-
-    DatabaseReference referenciaAlertasGrupo;
     ImageView fotoGrupo;
     EditText txtNombreGrupo;
 
@@ -277,8 +275,7 @@ public class InfoGrupoActivity extends AppCompatActivity {
     }
 
     public void cargarAlertasGrupo(String idGrupo){
-        referenciaGrupo.child(idGrupo).child("Alertas");
-        referenciaGrupo.addValueEventListener(new ValueEventListener() {
+        referenciaGrupo.child(idGrupo).child("Alertas").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
@@ -326,8 +323,7 @@ public class InfoGrupoActivity extends AppCompatActivity {
     }
 
     public void cargarMiembros(String idGrupo){
-        DatabaseReference miembrosGrupo = referenciaGrupo.child(idGrupo).child("miembros");
-        miembrosGrupo.addValueEventListener(new ValueEventListener() {
+        referenciaGrupo.child(idGrupo).child("miembros").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){

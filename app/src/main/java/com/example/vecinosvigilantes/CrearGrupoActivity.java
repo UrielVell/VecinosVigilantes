@@ -32,14 +32,25 @@ public class CrearGrupoActivity extends AppCompatActivity {
     private static final int GALLERY_INTENT=1;
     private EditText nombreGrupo=null;
     private ImageButton imj=null;
+    ImageButton btnAtras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_grupo);
+        btnAtras = (ImageButton) findViewById(R.id.btnAtrasCrearGrupo);
         autenticacion=FirebaseAuth.getInstance();
         referencia=FirebaseDatabase.getInstance().getReference();
+
+
+        btnAtras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
+
     public void extraeInfoGrupo(View view) {
         nombreGrupo = findViewById(R.id.editTextTextPersonName);
         if (nombreGrupo.getText().toString().isEmpty()){
