@@ -193,20 +193,7 @@ public class InfoGrupoActivity extends AppCompatActivity {
             }
         });
 
-        //referenciaGrupo2.removeValue();
-        //Toast.makeText(InfoGrupoActivity.this, refId_grupo, Toast.LENGTH_SHORT).show();
     }
-
-
-
-    //////
-/*String refId_grupo=id_Grupo;
-
-
-        referenciaGrupo2.removeValue();
-        Toast.makeText(InfoGrupoActivity.this, refId_grupo, Toast.LENGTH_SHORT).show();*/
-
-    ////
 
 
     public void abrirGaleria(View view) {
@@ -280,6 +267,7 @@ public class InfoGrupoActivity extends AppCompatActivity {
         referenciaGrupo.child(idGrupo).child("Alertas").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listaAlertas.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     AlertaClass alerta = dataSnapshot.getValue(AlertaClass.class);
                     listaAlertas.add(alerta);
@@ -328,10 +316,12 @@ public class InfoGrupoActivity extends AppCompatActivity {
         referenciaGrupo.child(idGrupo).child("miembros").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listaMiembros.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    MiembroClass miembro = dataSnapshot.getValue(MiembroClass.class);
-                    listaMiembros.add(miembro);
+                    MiembroClass  miembro = dataSnapshot.getValue(MiembroClass.class);
+                     listaMiembros.add(miembro);
                 }
+
                 adapterMiembros.notifyDataSetChanged();
             }
             @Override
