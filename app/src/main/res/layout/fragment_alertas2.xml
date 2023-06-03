@@ -57,32 +57,5 @@
             android:contentDescription="Envia una Alerta de sospecha"
             app:srcCompat="@drawable/group_2" />
 
-        <LinearLayout
-            style="@style/fondoIconosCuadrado"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="200dp"
-            android:layout_marginTop="150dp"
-            android:layout_marginEnd="20dp"
-            android:elevation="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
-                android:layout_weight="0"
-                app:srcCompat="@drawable/_icon__message_text_" />
-
-            <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="50dp"
-                android:layout_weight="0"
-                app:srcCompat="@drawable/_icon__question_mark_circle_" />
-        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

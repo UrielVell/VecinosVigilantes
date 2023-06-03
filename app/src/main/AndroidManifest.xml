@@ -19,7 +19,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.VecinosVigilantes"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        >
         <activity
             android:name=".MapasUsuarios"
             android:exported="false" />
@@ -29,29 +30,37 @@
             android:value="AIzaSyDypPzuJT-sd1xH4P10MH0rMlZy2vbbAxI" />
         <activity
             android:name=".CalificarAlerta"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".administrador.aplicacion.activities.InfoGrupoActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vecino.aplicacion.activities.SeleccionMetodoEntradaGrupoActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vecino.aplicacion.activities.CompartirGrupoActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".InicioAppActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".CrearGrupoActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".RegistroActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".IniciarSesionActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
