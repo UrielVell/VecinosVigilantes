@@ -60,7 +60,6 @@ public class InfoGrupoActivity extends AppCompatActivity {
     EditText txtNombreGrupo;
 
     ImageButton btnCambiarFotoGrupo;
-    ImageButton btnCambiarNombreGrupo;
     ImageButton btnCompartir;
     ImageButton btnEliminarGrupo;
     ImageButton btnSalirGrupo;
@@ -312,7 +311,6 @@ public class InfoGrupoActivity extends AppCompatActivity {
                 if (!admin.equals(idUsuario)){
                     btnCambiarFotoGrupo.setVisibility(View.INVISIBLE);
                     btnCompartir.setVisibility(View.INVISIBLE);
-                    btnCambiarNombreGrupo.setVisibility(View.INVISIBLE);
                     btnEliminarGrupo.setVisibility(View.INVISIBLE);
                 }
             }
