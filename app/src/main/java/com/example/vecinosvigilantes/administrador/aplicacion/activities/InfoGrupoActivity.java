@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.vecinosvigilantes.InicioAppActivity;
 import com.example.vecinosvigilantes.R;
 import com.example.vecinosvigilantes.vecino.aplicacion.activities.CompartirGrupoActivity;
 import com.example.vecinosvigilantes.vecino.aplicacion.logica.AdapterMiembros;
@@ -66,7 +67,8 @@ public class InfoGrupoActivity extends AppCompatActivity {
 
     ImageButton btnDescargarAlertasGrupo;
     StorageReference storageReference;
-    public String id_Grupo;
+    String id_Grupo;
+    String admin;
     public  String idUsuarioLog;
     private static final int GALLERY_INTENT = 1;
 
@@ -85,7 +87,7 @@ public class InfoGrupoActivity extends AppCompatActivity {
 
         ImageButton btnAtras = (ImageButton) findViewById(R.id.btnAtras);
         btnCambiarFotoGrupo = (ImageButton) findViewById(R.id.btnCambiarFotoGrupo);
-        btnCambiarNombreGrupo = (ImageButton) findViewById(R.id.btnCambiarNombreGrupo);
+
         btnCompartir = (ImageButton) findViewById(R.id.btnCompartir);
         btnEliminarGrupo = (ImageButton) findViewById(R.id.btnEliminarGrupo);
         btnSalirGrupo = (ImageButton) findViewById(R.id.btnSalirGrupo);
@@ -127,7 +129,7 @@ public class InfoGrupoActivity extends AppCompatActivity {
         btnEliminarGrupo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                eliminarGrupo();
             }
         });
 
@@ -266,6 +268,7 @@ public class InfoGrupoActivity extends AppCompatActivity {
                 cargarInfoGrupo(idGrupo,fotoGrupo,txtNombreGrupo,idUsuario);
                 cargarMiembros(idGrupo);
                 cargarAlertasGrupo(idGrupo);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -393,4 +396,44 @@ public class InfoGrupoActivity extends AppCompatActivity {
         });
     }
 
+    public void eliminarGrupo(){
+        String grupo = "";
+        referenciaGrupo.child(id_Grupo).child("miembros").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    String idMiembro = dataSnapshot.getKey();
+                    DatabaseReference refMiembro = FirebaseDatabase.getInstance().getReference("Usuarios").child(idMiembro);
+
+                    HashMap map = new HashMap<>();
+                    map.put("id_grupo",grupo);
+                    refMiembro.updateChildren(map);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        referenciaUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                HashMap map = new HashMap<>();
+                map.put("id_grupo",grupo);
+                referenciaUsuario.updateChildren(map);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        referenciaGrupo.child(id_Grupo).removeValue();
+        Toast.makeText(this, "Grupo Eliminado", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, InicioAppActivity.class);
+        startActivity(intent);
+
+    }
 }

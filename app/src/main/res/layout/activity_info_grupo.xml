@@ -73,28 +73,13 @@
         android:layout_width="247dp"
         android:layout_height="59dp"
         android:layout_marginTop="56dp"
-        android:layout_marginEnd="64dp"
         android:ems="10"
         android:enabled="false"
         android:hint="Nombre de Grupo"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnCambiarNombreGrupo"
-        app:layout_constraintTop_toBottomOf="@+id/imgFotoGrupo" />
-
-    <ImageButton
-        android:id="@+id/btnCambiarNombreGrupo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="56dp"
-        android:background="@color/transparent"
-        android:contentDescription="Cambiar nombre de Grupo"
-        app:layout_constraintEnd_toStartOf="@+id/txtNombreGrupo"
-        app:layout_constraintHorizontal_bias="0.791"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgFotoGrupo"
-        app:srcCompat="@drawable/group_7" />
+        app:layout_constraintTop_toBottomOf="@+id/imgFotoGrupo" />
 
     <TextView
         android:id="@+id/textView12"
