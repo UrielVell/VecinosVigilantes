@@ -28,7 +28,8 @@
                 android:layout_weight="1"
                 android:background="#00FFFFFF"
                 android:contentDescription="Boton para regresar a la pantalla grupos"
-                android:src="?attr/actionModeCloseDrawable" />
+                android:src="?attr/actionModeCloseDrawable"
+                tools:src="@drawable/_icon__nav_arrow_left_" />
 
             <TextView
                 android:id="@+id/TextViewSeleccionMetodoEntrada"
@@ -44,11 +45,11 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/lato"
                 android:padding="10dp"
-                android:text="Selecciona el metodo para entrar a un grupo"
+                android:text="Unirse a un Grupo"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="34sp"
                 android:textStyle="bold"
                 android:typeface="normal" />
 
@@ -65,6 +66,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -89,5 +91,19 @@
             app:srcCompat="@drawable/camara"
             app:tint="#1682C6" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="258dp"
+        android:layout_height="113dp"
+        android:fontFamily="@font/lato"
+        android:text="Da click en la camara para escanear el Codigo QR"
+        android:textAlignment="center"
+        android:textColor="@color/light_blue_A400"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

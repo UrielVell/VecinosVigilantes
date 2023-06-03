@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".CalificarAlerta">
+
+    <TextView
+        android:layout_width="203dp"
+        android:layout_height="wrap_content"
+        android:text="Califica la Veracidad de la alerta"
+        android:textAppearance="?android:textAppearanceLarge" />
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Ingresar la calificion que le daras a la alerta"
+        android:hint="malo, bueno, etc"
+        android:id="@+id/ratingBar"/>
+    <TextView
+        android:layout_width="203dp"
+        android:layout_height="wrap_content"
+        android:text="Calificar"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:id="@+id/rateCount"/>
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="73dp"
+        android:hint="Escribe un mensaje..."
+        android:id="@+id/review"
+        android:textAppearance="?android:textAppearanceMedium"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enviar"
+        android:textAllCaps="false"
+        android:id="@+id/btnEnviar"
+        android:layout_gravity="right"/>
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="73dp"
+        android:id="@+id/showRating"
+        android:layout_margin="10dp"
+        android:hint="@string/vecinos_vigilantes"
+        android:textAppearance="?android:textAppearanceMedium"/>
+
+
+</LinearLayout>

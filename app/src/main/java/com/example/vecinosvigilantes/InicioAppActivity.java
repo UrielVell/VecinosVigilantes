@@ -35,6 +35,11 @@ public class InicioAppActivity extends AppCompatActivity implements BottomNaviga
         startActivity(intent);
     }
 
+    public void abrirPantallaCalificar(View view){
+        Intent intent = new Intent(getApplicationContext(),CalificarAlerta.class);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
